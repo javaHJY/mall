@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.CartDao">
+	
+	<insert id="addGoods">
+		insert into cart_goods(cart_id,g_id,count,amount) values(1,#{g.id},#{num},#{num}*#{g.price}) 
+	</insert>
+	<delete id="deleteGoods">
+		delete from cart_goods where g_id=#{g.id}
+	</delete>
+	<update id="increaseGoods">
+		update cart_goods set count=count+#{num},amount=#{g.price}*count where g_id=#{g.id}
+	</update>
+	<select id="searchAll" resultMap="CartAndGoods">
+		select g.*,p.id as pId,p.cover,p.path,p.g_id,m.count,m.amount as l_amount,c.id as cId,c.amount as t_amount
+		from shopping_cart as c
+		inner join cart_goods as m
+		on c.id=m.cart_id
+		inner join goods as g
+		on m.g_id=g.id
+		inner join photo as p
+		on g.id=p.g_id
+	</select>
+	<select id="searchGoodsById" resultType="entity.Goods">
+		select g.*,m.count
+		from shopping_cart as c
+		inner join cart_goods as m
+		on c.id=m.cart_id
+		inner join goods as g
+		on m.g_id=g.id
+		where g.id=#{id}
+	</select>
+	<resultMap type="entity.Cart" id="CartAndGoods">
+		<id property="id" column="cId"/>
+		<result property="t_amount" column="t_amount"/>
+		<collection property="goodsList" ofType="entity.Goods">
+			<id property="id" column="id"/>
+			<result property="no" column="no"/>
+			<result property="name" column="name"/>
+			<result property="price" column="price"/>
+			<result property="stock" column="stock"/>
+			<result property="saleNum" column="saleNum"/>
+			<result property="detail" column="detail"/>
+			<result property="count" column="count"/>
+			<result property="l_amount" column="l_amount"/>
+			<result property="s_id" column="s_id"/>
+			<collection property="photoList" ofType="entity.Photo">
+				<id property="id" column="pId"/>
+				<result property="cover" column="cover"/>
+				<result property="path" column="path"/>
+				<result property="g_id" column="g_id"/>
+			</collection>
+		</collection>
+	</resultMap>
+</mapper> 
+    
