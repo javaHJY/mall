@@ -31,6 +31,22 @@ public class CartServiceImpl implements CartService {
 		return rs>0;
 	}
 
+	public boolean increaseGoods(int gId, int num) {
+		Goods g=gDao.searchById(gId);
+		int rs=0;
+		rs=cDao.increaseGoods(g, num);
+		rs=gDao.reduceStock(g, num);
+		return rs>0;
+	}
+	
+	public boolean decreaseGoods(int gId, int num) {
+		Goods g=gDao.searchById(gId);
+		int rs=0;
+		rs=cDao.decreaseGoods(g, num);
+		rs=gDao.restoreGoods(g, num);
+		return rs>0;
+	}
+	
 	public boolean deleteGoods(Goods g,int num) {
 		int rs=cDao.deleteGoods(g);
 		Goods goods=cDao.searchGoodsById(g.getId());

@@ -35,7 +35,6 @@
 		                }
 					})
 				}
-				
 			})
 			$(".num").change(function() {
 				var numNow=$(".num").val();
