@@ -17,7 +17,7 @@ public class GoodsController {
 	@Autowired
 	private GoodsService goodsService;
 	
-	@RequestMapping(value="list")
+	@RequestMapping("list")
 	public ModelAndView showList() {
 		ModelAndView mav=new ModelAndView("goods/list");
 		List<Goods> list=goodsService.searchAll();
@@ -26,9 +26,9 @@ public class GoodsController {
 	}
 	
 	@RequestMapping("detail")
-	public ModelAndView showDetail(Goods g) {
+	public ModelAndView showDetail(int id) {
 		ModelAndView mav=new ModelAndView("goods/detail");
-		Goods goods=goodsService.searchById(g.getId());
+		Goods goods=goodsService.searchById(id);
 		mav.addObject("goods", goods);
 		return mav;
 	}

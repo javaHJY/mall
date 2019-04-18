@@ -10,8 +10,6 @@ public class Goods {
 	private int stock;
 	private int saleNum;
 	private String detail;
-	private int count;
-	private double l_amount;
 	private int s_id;
 	private List<Photo> photoList;
 	
@@ -56,19 +54,6 @@ public class Goods {
 	}
 	public void setDetail(String detail) {
 		this.detail = detail;
-	}
-	
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	public double getL_amount() {
-		return l_amount;
-	}
-	public void setL_amount(double l_amount) {
-		this.l_amount = l_amount;
 	}
 	public int getS_id() {
 		return s_id;

@@ -1,28 +1,40 @@
 package entity;
 
-import java.util.List;
-
 public class Cart {
 	private int id;
-	private double t_amount;
-	private List<Goods> goodsList;
+	private Goods goods;
+	private int count;
+	private double l_amount;
+	private User user;
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public double getT_amount() {
-		return t_amount;
+	public Goods getGoods() {
+		return goods;
 	}
-	public void setT_amount(double t_amount) {
-		this.t_amount = t_amount;
+	public void setGoods(Goods goods) {
+		this.goods = goods;
 	}
-	public List<Goods> getGoodsList() {
-		return goodsList;
+	public int getCount() {
+		return count;
 	}
-	public void setGoodsList(List<Goods> goodsList) {
-		this.goodsList = goodsList;
+	public void setCount(int count) {
+		this.count = count;
 	}
-	
+	public double getL_amount() {
+		return l_amount;
+	}
+	public void setL_amount(double l_amount) {
+		this.l_amount = l_amount;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

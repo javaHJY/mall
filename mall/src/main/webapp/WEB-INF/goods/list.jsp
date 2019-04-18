@@ -99,19 +99,6 @@
                 thisMb1.style.borderColor = '#cd2426';
                 $huantu[0].src = thisMb1.children[0].src;
             }
-            $(".Xcontent33").click(function(){
-                var value=parseInt($('.input').val())+1;
-                $('.input').val(value);
-            })
-
-            $(".Xcontent32").click(function(){
-                var num = $(".input").val()
-                if(num>0){
-                    $(".input").val(num-1);
-                }
-
-            })
-
         })
 	</script>
 </head>

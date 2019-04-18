@@ -12,10 +12,10 @@
 		update goods set stock=stock+#{num},saleNum=saleNum-#{num} where id=#{g.id}
 	</update>
 	<select id="searchById" resultMap="GoodsAndPhoto">
-		select g.*,p.id as pId,p.cover,p.path,p.g_id from photo as p left join goods as g on p.g_id=g.id where g.id=#{id}
+		select * from goods where id=#{id}
 	</select>
 	<select id="searchAll" resultMap="GoodsAndPhoto">
-		select g.*,p.id as pId,p.cover,p.path,p.g_id from photo as p left join goods as g on p.g_id=g.id 
+		select * from goods
 	</select>
 	<resultMap type="entity.Goods" id="GoodsAndPhoto">
 		<id property="id" column="id"/>
@@ -26,11 +26,7 @@
 		<result property="saleNum" column="saleNum"/>
 		<result property="detail" column="detail"/>
 		<result property="s_id" column="s_id"/>
-		<collection property="photoList" ofType="entity.Photo">
-			<id property="id" column="pId"/>
-			<result property="cover" column="cover"/>
-			<result property="path" column="path"/>
-			<result property="g_id" column="g_id"/>
+		<collection property="photoList" column="id" select="dao.PhotoDao.searchByGoodsId">
 		</collection>
 	</resultMap>
 </mapper> 
