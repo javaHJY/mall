@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -263,21 +264,11 @@
 				<img src="../${goods.photoList[0].cover }">
 			</div>
 			<ol class="Xcontent08">
-				<div class="Xcontent07">
-					<img src="../${goods.photoList[0].path }">
-				</div>
-				<div class="Xcontent09">
-					<img src="../${goods.photoList[1].path }">
-				</div>
-				<div class="Xcontent10">
-					<img src="../${goods.photoList[2].path }">
-				</div>
-				<div class="Xcontent11">
-					<img src="../${goods.photoList[3].path }">
-				</div>
-				<div class="Xcontent12">
-					<img src="../${goods.photoList[4].path }">
-				</div>
+				<c:forEach items="${goods.photoList }" var="p">
+					<div class="Xcontent07">
+						<img src="../${p.path }">
+					</div>
+				</c:forEach>
 			</ol>
 			<ol class="Xcontent13 clearfix">
 				<div class="Xcontent14 clearfix">
