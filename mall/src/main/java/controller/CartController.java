@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import entity.Cart;
 import entity.Goods;
+import entity.User;
 import service.CartService;
 
 @Controller
@@ -18,27 +19,26 @@ public class CartController {
 	private CartService cService;
 	
 	//向购物车添加商品
-	@RequestMapping("add")
-	public String add(Goods g,int num) {
-		cService.addGoods(g,num);
+	@RequestMapping("addGoods")
+	public String addGoods(Cart cart) {
+		User user=new User();
+		user.setId(1);
+		cart.setUser(user);
+		cService.addGoods(cart);
 		return "redirect:list.do";
 	}
 	
 	//增加购物车中的商品
 	@RequestMapping("increaseGoods")
-	@ResponseBody
 	public String increaseGoods(int gId,int num) {
 		cService.increaseGoods(gId,num);
-//		Goods g=cService.searchGoodsById(gId);
 		return "redirect:list.do";
 	}
 
 	//减少购物车中的商品
 	@RequestMapping("decreaseGoods")
-	@ResponseBody
 	public String decreaseGoods(int gId,int num) {
 		cService.decreaseGoods(gId,num);
-//		Goods g=cService.searchGoodsById(gId);
 		return "redirect:list.do";
 	}
 	
@@ -54,7 +54,7 @@ public class CartController {
 	public ModelAndView showList() {
 		ModelAndView mav=new ModelAndView("cart/cart");
 		Cart cart=cService.searchAll();
-		mav.addObject("cart",cart);
+		mav.addObject("cartList",cart);
 		return mav;
 	}
 }

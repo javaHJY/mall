@@ -5,8 +5,11 @@
 
 <mapper namespace="dao.GoodsDao">
 	
+	<update id="updateStock">
+		update goods set stock=#{goods.stock},saleNum=#{goods.saleNum} where id=#{goods.id}
+	</update>
 	<update id="reduceStock">
-		update goods set stock=stock-#{num},saleNum=saleNum+#{num} where id=#{g.id}
+		update goods set stock=#{goods.stock},saleNum=#{goods.saleNum} where id=#{goods.id}
 	</update>
 	<update id="restoreGoods">
 		update goods set stock=stock+#{num},saleNum=saleNum-#{num} where id=#{g.id}

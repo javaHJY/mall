@@ -1,10 +1,11 @@
 package entity;
 
 public class Photo {
-	private int id;
-	private String cover;
-	private String path;
-	private int g_id;
+	private int id;//图片id
+	private String cover;//封面
+	private String path;//图片路径
+	private int g_id;//对应商品id
+	
 	public int getId() {
 		return id;
 	}

@@ -1,11 +1,11 @@
 package entity;
 
 public class Cart {
-	private int id;
-	private Goods goods;
-	private int count;
-	private double l_amount;
-	private User user;
+	private int id;//购物车id
+	private Goods goods;//商品
+	private int count;//数量
+	private double l_amount;//小计
+	private User user;//所属用户
 	
 	public int getId() {
 		return id;

@@ -6,18 +6,24 @@
 <mapper namespace="dao.CartDao">
 	
 	<insert id="addGoods">
-		insert into cart_goods(cart_id,g_id,count,amount) values(1,#{g.id},#{num},#{num}*#{g.price}) 
+		insert into cart(u_id,g_id,count,l_amount) values(#{cart.user.id},#{cart.goods.id},#{cart.count},#{cart.l_count}) 
 	</insert>
 	<delete id="deleteGoods">
 		delete from cart_goods where g_id=#{g.id}
 	</delete>
+	<update id="updateCart">
+		update cart set count=#{cart.count},l_amount=#{cart.l_amount} where id=#{cart.id}
+	</update>
 	<update id="increaseGoods">
 		update cart_goods set count=count+#{num},amount=#{g.price}*count where g_id=#{g.id}
 	</update>
 	<select id="searchAll" resultMap="CartAndGoods">
 		select * from cart
 	</select>
-	<select id="searchGoodsById" resultType="entity.Goods">
+	<select id="searchByCart" resultType="entity.Cart">
+		select * from cart where u_id=#{cart.user.id} and g_id=#{cart.goods.id}
+	</select>
+	<!-- <select id="searchByCart" resultType="entity.Goods">
 		select g.*,m.count
 		from shopping_cart as c
 		inner join cart_goods as m
@@ -25,7 +31,7 @@
 		inner join goods as g
 		on m.g_id=g.id
 		where g.id=#{id}
-	</select>
+	</select> -->
 	<resultMap type="entity.Cart" id="CartAndGoods">
 		<id property="id" column="id"/>
 		<result property="l_amount" column="l_amount"/>

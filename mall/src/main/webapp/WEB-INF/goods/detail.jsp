@@ -114,26 +114,33 @@
 			thisMb1.style.borderColor = '#cd2426';
 			$huantu[0].src = thisMb1.children[0].src;
 		}
-		var num = $(".input").val();
-		$(".Xcontent32").click(function() {
+		$("#decrease").click(function() {
+			var num = $("#num").val();
 			if (num > 1) {
-				$(".input").val(num - 1);
-				num--;
+				$("#num").val(--num);
 			}
 		})
-		$(".Xcontent33").click(function() {
-			num++;
-			$('.input').val(num);
-		})
-		$(".input").change(function() {
-			if (num < 1) {
-				$(".input").val(1);
-				num=1;
+		$("#increase").click(function() {
+			var num = $("#num").val();
+			if(num<"${goods.stock}"){
+				$('#num').val(++num);
 			}
-			num=$(".input").val();
+		})
+		var timer=0;
+		$("#num").keyup(function() {
+			clearTimeout(timer);
+			timer=setTimeout(function(){
+				var num = $("#num").val();
+				if (num < 1) {
+					$("#num").val(1);
+				}
+				if(num>"${goods.stock}"){
+					$('#num').val("${goods.stock}");
+				}
+			},1000)
 		})
 		$(".Xcontent35 a").click(function(){
-			location.href="../cart/add.do?id=${goods.id }&num="+num;
+			location.href="../cart/addGoods.do?goods.id=${goods.id }&count="+$("#num").val();
 		})
 	})
 </script>
@@ -306,13 +313,13 @@
 				</div>
 				<div class="Xcontent30">
 					<p class="Xcontent31">数量</p>
-					<div class="Xcontent32">
+					<div class="Xcontent32" id="decrease">
 						<img src="../images/shangpinxiangqing/X15.png">
 					</div>
 					<form>
-						<input class="input" value="1">
+						<input class="input" id="num" value="1">
 					</form>
-					<div class="Xcontent33">
+					<div class="Xcontent33" id="increase">
 						<img src="../images/shangpinxiangqing/16.png">
 					</div>
 

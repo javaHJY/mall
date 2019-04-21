@@ -3,15 +3,15 @@ package entity;
 import java.util.List;
 
 public class Goods {
-	private int id;
-	private String no;
-	private String name;
-	private double price;
-	private int stock;
-	private int saleNum;
-	private String detail;
-	private int s_id;
-	private List<Photo> photoList;
+	private int id;//商品id
+	private String no;//商品编号
+	private String name;//商品名称
+	private double price;//商品价格
+	private int stock;//商品库存
+	private int saleNum;//商品已售数量
+	private String detail;//商品详情
+	private int s_id;//对应小分类id
+	private List<Photo> photoList;//商品的图片集
 	
 	public int getId() {
 		return id;

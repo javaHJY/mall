@@ -206,27 +206,27 @@
 							</ul>
 						</td>
 					</tr>
-					<c:forEach items="${cart.goodsList }" var="g">
+					<c:forEach items="${cartList }" var="cart">
 						<tr>
 							<th><input type="checkbox"  style="margin-left:10px; float:left"></th>
 							<th class="tab-th-1">
-								<a href="../goods/detail.do?id=${g.id }"><img src="../${g.photoList[0].cover }" width="100%" alt=""></a>
-								<a href="../goods/detail.do?id=${g.id }" class="tab-title">${g.name }</a>
+								<a href="../goods/detail.do?id=${cart.goods.id }"><img src="../${cart.goods.photoList[0].cover }" width="100%" alt=""></a>
+								<a href="../goods/detail.do?id=${cart.goods.id }" class="tab-title">${cart.goods.name }</a>
 							</th>
 							<th>
-								<p>${g.detail }</p>
+								<p>${cart.goods.detail }</p>
 							</th>
 							<th>
-								<p>${g.price }</p>
-								<p class="red">${g.price }</p>
+								<p>${cart.goods.price }</p>
+								<p class="red">${cart.goods.price }</p>
 							</th>
 							<th class="tab-th-2">
-								<span class="decrease" data-id="${g.id }">-</span>
-								<input class="num shul" data-id="${g.id }" type="text" value="${g.count }" maxlength="3" placeholder="">
-								<span class="increase" data-id="${g.id }">+</span>
+								<span class="decrease" data-id="${cart.goods.id }">-</span>
+								<input class="num shul" data-id="${cart.goods.id }" type="text" value="${cart.count }" maxlength="3" placeholder="">
+								<span class="increase" data-id="${cart.goods.id }">+</span>
 							</th>
-							<th class="red">${g.l_amount }</th>
-							<th><a class="deleteOne" data-id="${g.id }">删除</a></th>
+							<th class="red">${cart.l_amount }</th>
+							<th><a class="deleteOne" data-id="${cart.goods.id }">删除</a></th>
 						</tr>
 					</c:forEach>
 				</tbody>
