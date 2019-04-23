@@ -1,5 +1,7 @@
 package service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +29,15 @@ public class CartServiceImpl implements CartService {
 		Cart searchCart=cDao.searchByCart(cart);
 		Goods g=gDao.searchById(cart.getGoods().getId());
 		double price=g.getPrice();
+		int count=cart.getCount();
 		if(searchCart==null) {
 			//添加商品
-			double l_amount=price*cart.getCount();
+			double l_amount=price*count;
 			cart.setL_amount(l_amount);
 			rs=cDao.addGoods(cart);
 			//对应商品修改库存和销售量
-			g.setStock(g.getStock()-cart.getCount());
-			g.setSaleNum(g.getSaleNum()+cart.getCount());
+			g.setStock(g.getStock()-count);
+			g.setSaleNum(g.getSaleNum()+count);
 			rs=gDao.updateStock(g);
 			//用户总计改变
 			User user=cart.getUser();
@@ -43,53 +46,95 @@ public class CartServiceImpl implements CartService {
 			rs=userDao.updateT_amount(user);
 		}else {
 			//对应商品修改库存和销售量
-			searchCart.setCount(searchCart.getCount()+cart.getCount());
-			double l_amount=searchCart.getL_amount()+price*cart.getCount();
+			searchCart.setCount(searchCart.getCount()+count);
+			double l_amount=searchCart.getL_amount()+price*count;
 			searchCart.setL_amount(l_amount);
 			rs=cDao.updateCart(searchCart);
 			//对应商品修改库存和销售量
-			g.setStock(g.getStock()-cart.getCount());
-			g.setSaleNum(g.getSaleNum()+cart.getCount());
+			g.setStock(g.getStock()-count);
+			g.setSaleNum(g.getSaleNum()+count);
 			rs=gDao.updateStock(g);
 			//用户总计改变
 			User user=cart.getUser();
 			double t_amount=user.getT_amount();
-			user.setT_amount(t_amount+price*cart.getCount());
+			user.setT_amount(t_amount+price*count);
 			rs=userDao.updateT_amount(user);
 		}
 		return rs>0;
 	}
 
 	//购物车中商品增加
-	public boolean increaseGoods(int gId, int num) {
-		Goods g=gDao.searchById(gId);
+	public boolean increaseGoods(Cart cart) {
 		int rs=0;
-		rs=cDao.increaseGoods(g, num);
-		rs=gDao.reduceStock(g, num);
+		Goods goods=gDao.searchById(cart.getGoods().getId());
+		double price=goods.getPrice();
+		int count=cart.getCount();
+		//改变购物车信息
+		Cart searchCart=cDao.searchByCart(cart);
+		searchCart.setCount(searchCart.getCount()+count);
+		searchCart.setL_amount(searchCart.getL_amount()+count*price);
+		rs=cDao.updateCart(searchCart);
+		//改变商品信息
+		goods.setStock(goods.getStock()-count);
+		goods.setSaleNum(goods.getSaleNum()+count);
+		rs=gDao.updateStock(goods);
+		//改变用户总计
+		User user=cart.getUser();
+		double t_amount=user.getT_amount()+price*count;
+		user.setT_amount(t_amount);
+		userDao.updateT_amount(user);
 		return rs>0;
 	}
 	
 	//购物车中商品减少
-	public boolean decreaseGoods(int gId, int num) {
-		Goods g=gDao.searchById(gId);
+	public boolean decreaseGoods(Cart cart) {
 		int rs=0;
-		rs=cDao.decreaseGoods(g, num);
-		rs=gDao.restoreGoods(g, num);
+		Goods goods=gDao.searchById(cart.getGoods().getId());
+		double price=goods.getPrice();
+		int count=cart.getCount();
+		//改变购物车信息
+		Cart searchCart=cDao.searchByCart(cart);
+		searchCart.setCount(searchCart.getCount()-count);
+		searchCart.setL_amount(searchCart.getL_amount()-count*price);
+		rs=cDao.updateCart(cart);
+		//改变商品信息
+		goods.setStock(goods.getStock()+count);
+		goods.setSaleNum(goods.getSaleNum()-count);
+		rs=gDao.updateStock(goods);
+		//改变用户总计
+		User user=cart.getUser();
+		user.setT_amount(user.getT_amount()-price*count);
+		userDao.updateT_amount(user);
 		return rs>0;
 	}
 	
 	//购物车中商品删除
-	public boolean deleteGoods(Goods g,int num) {
-		int rs=cDao.deleteGoods(g);
-		Goods goods=cDao.searchByCart(g.getId());
-		gDao.restoreGoods(goods,num);
+	public boolean deleteGoods(Cart cart) {
+		int rs=0;
+		//删除购物车表中的信息
+		rs=cDao.deleteGoods(cart);
+		//改变商品表数据
+		Goods goods=gDao.searchById(cart.getGoods().getId());
+		goods.setStock(goods.getStock()+cart.getCount());
+		goods.setSaleNum(goods.getSaleNum()-cart.getCount());
+		rs=gDao.updateStock(goods);
+		//改变用户总计
+		User user=cart.getUser();
+		user.setT_amount(user.getT_amount()-goods.getPrice()*cart.getCount());
+		rs=userDao.updateT_amount(user);
 		return rs>0;
 	}
 	
 	//查询所有购物车商品
-	public Cart searchAll() {
-		Cart cart=cDao.searchAll();
-		return cart;
+	public List<Cart> searchAllByUser(User user) {
+		List<Cart> cartList=cDao.searchAllByUser(user);
+		return cartList;
+	}
+	
+	//根据购物车查询购物车
+	public Cart searchByCart(Cart cart) {
+		Cart c=cDao.searchByCart(cart);
+		return c;
 	}
 
 }

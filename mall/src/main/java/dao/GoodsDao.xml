@@ -8,12 +8,6 @@
 	<update id="updateStock">
 		update goods set stock=#{goods.stock},saleNum=#{goods.saleNum} where id=#{goods.id}
 	</update>
-	<update id="reduceStock">
-		update goods set stock=#{goods.stock},saleNum=#{goods.saleNum} where id=#{goods.id}
-	</update>
-	<update id="restoreGoods">
-		update goods set stock=stock+#{num},saleNum=saleNum-#{num} where id=#{g.id}
-	</update>
 	<select id="searchById" resultMap="GoodsAndPhoto">
 		select * from goods where id=#{id}
 	</select>
@@ -32,5 +26,11 @@
 		<collection property="photoList" column="id" select="dao.PhotoDao.searchByGoodsId">
 		</collection>
 	</resultMap>
+	<!-- <update id="reduceStock">
+		update goods set stock=#{goods.stock},saleNum=#{goods.saleNum} where id=#{goods.id}
+	</update>
+	<update id="restoreGoods">
+		update goods set stock=stock+#{num},saleNum=saleNum-#{num} where id=#{g.id}
+	</update> -->
 </mapper> 
     

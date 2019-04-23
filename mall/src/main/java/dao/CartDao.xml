@@ -5,24 +5,38 @@
 
 <mapper namespace="dao.CartDao">
 	
+	<!-- 添加购物车 -->
 	<insert id="addGoods">
-		insert into cart(u_id,g_id,count,l_amount) values(#{cart.user.id},#{cart.goods.id},#{cart.count},#{cart.l_count}) 
+		insert into cart(u_id,g_id,count,l_amount) values(#{cart.user.id},#{cart.goods.id},#{cart.count},#{cart.l_amount}) 
 	</insert>
+	<!-- 购物车删除商品 -->
 	<delete id="deleteGoods">
-		delete from cart_goods where g_id=#{g.id}
+		delete from cart where u_id=#{cart.user.id} and g_id=#{cart.goods.id}
 	</delete>
+	<!-- 修改购物车 -->
 	<update id="updateCart">
 		update cart set count=#{cart.count},l_amount=#{cart.l_amount} where id=#{cart.id}
 	</update>
+	<!-- 根据用户id查询购物车 -->
+	<select id="searchAllByUser" resultMap="CartAndGoods">
+		select * from cart where u_id=#{user.id}
+	</select>
+	<!-- 根据购物车信息查询购物车 -->
+	<select id="searchByCart" resultMap="CartAndGoods">
+		select * from cart where u_id=#{cart.user.id} and g_id=#{cart.goods.id}
+	</select>
+	<resultMap type="entity.Cart" id="CartAndGoods">
+		<id property="id" column="id"/>
+		<result property="count" column="count"/>
+		<result property="l_amount" column="l_amount"/>
+		<association property="goods" javaType="entity.Goods" column="g_id" select="dao.GoodsDao.searchById">
+		</association>
+		<association property="user" javaType="entity.User" column="u_id" select="dao.UserDao.searchById">
+		</association>
+	</resultMap>
 	<update id="increaseGoods">
 		update cart_goods set count=count+#{num},amount=#{g.price}*count where g_id=#{g.id}
 	</update>
-	<select id="searchAll" resultMap="CartAndGoods">
-		select * from cart
-	</select>
-	<select id="searchByCart" resultType="entity.Cart">
-		select * from cart where u_id=#{cart.user.id} and g_id=#{cart.goods.id}
-	</select>
 	<!-- <select id="searchByCart" resultType="entity.Goods">
 		select g.*,m.count
 		from shopping_cart as c
@@ -32,12 +46,5 @@
 		on m.g_id=g.id
 		where g.id=#{id}
 	</select> -->
-	<resultMap type="entity.Cart" id="CartAndGoods">
-		<id property="id" column="id"/>
-		<result property="l_amount" column="l_amount"/>
-		<result property="count" column="count"/>
-		<association property="goods" javaType="entity.Goods" column="g_id" select="dao.CartDao.searchGoodsById">
-		</association>
-	</resultMap>
 </mapper> 
     
