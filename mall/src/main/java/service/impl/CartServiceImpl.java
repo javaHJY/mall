@@ -62,52 +62,30 @@ public class CartServiceImpl implements CartService {
 		}
 		return rs>0;
 	}
-
-	//购物车中商品增加
-	public boolean increaseGoods(Cart cart) {
-		int rs=0;
+	
+	//购物车中商品改变
+	public Cart updateCart(Cart cart) {
 		Goods goods=gDao.searchById(cart.getGoods().getId());
 		double price=goods.getPrice();
 		int count=cart.getCount();
-		//改变购物车信息
 		Cart searchCart=cDao.searchByCart(cart);
-		searchCart.setCount(searchCart.getCount()+count);
-		searchCart.setL_amount(searchCart.getL_amount()+count*price);
-		rs=cDao.updateCart(searchCart);
+		int prevCount=searchCart.getCount();
+		//改变购物车信息
+		searchCart.setCount(count);
+		searchCart.setL_amount(count*price);
+		cDao.updateCart(searchCart);
 		//改变商品信息
-		goods.setStock(goods.getStock()-count);
-		goods.setSaleNum(goods.getSaleNum()+count);
-		rs=gDao.updateStock(goods);
+		goods.setStock(goods.getStock()+prevCount-count);
+		goods.setSaleNum(goods.getSaleNum()-prevCount+count);
+		gDao.updateStock(goods);
 		//改变用户总计
 		User user=cart.getUser();
-		double t_amount=user.getT_amount()+price*count;
+		double t_amount=user.getT_amount()-prevCount*price+price*count;
 		user.setT_amount(t_amount);
 		userDao.updateT_amount(user);
-		return rs>0;
+		return searchCart;
 	}
-	
-	//购物车中商品减少
-	public boolean decreaseGoods(Cart cart) {
-		int rs=0;
-		Goods goods=gDao.searchById(cart.getGoods().getId());
-		double price=goods.getPrice();
-		int count=cart.getCount();
-		//改变购物车信息
-		Cart searchCart=cDao.searchByCart(cart);
-		searchCart.setCount(searchCart.getCount()-count);
-		searchCart.setL_amount(searchCart.getL_amount()-count*price);
-		rs=cDao.updateCart(cart);
-		//改变商品信息
-		goods.setStock(goods.getStock()+count);
-		goods.setSaleNum(goods.getSaleNum()-count);
-		rs=gDao.updateStock(goods);
-		//改变用户总计
-		User user=cart.getUser();
-		user.setT_amount(user.getT_amount()-price*count);
-		userDao.updateT_amount(user);
-		return rs>0;
-	}
-	
+
 	//购物车中商品删除
 	public boolean deleteGoods(Cart cart) {
 		int rs=0;
@@ -136,5 +114,4 @@ public class CartServiceImpl implements CartService {
 		Cart c=cDao.searchByCart(cart);
 		return c;
 	}
-
 }

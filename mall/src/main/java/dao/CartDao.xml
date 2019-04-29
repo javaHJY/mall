@@ -34,17 +34,5 @@
 		<association property="user" javaType="entity.User" column="u_id" select="dao.UserDao.searchById">
 		</association>
 	</resultMap>
-	<update id="increaseGoods">
-		update cart_goods set count=count+#{num},amount=#{g.price}*count where g_id=#{g.id}
-	</update>
-	<!-- <select id="searchByCart" resultType="entity.Goods">
-		select g.*,m.count
-		from shopping_cart as c
-		inner join cart_goods as m
-		on c.id=m.cart_id
-		inner join goods as g
-		on m.g_id=g.id
-		where g.id=#{id}
-	</select> -->
 </mapper> 
     

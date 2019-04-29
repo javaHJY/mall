@@ -21,75 +21,57 @@
 	<script type="text/javascript">
 		$().ready(function(){
 			$(".decrease").click(function(){
-				var num=$(this).next().val();
-				if(num>1){
-					$(this).next().val(--num);
-					var gId=$(this).next().data("goodsid");
-					$.ajax({
-						type: "post",
-		                url: "decreaseGoods.do",
-		                data: {"goods.id":gId,count:num},
-		                dataType: "json",
-		              	success: function(data){
-		              		$.each(data,function(index,element){
-		              			console.log(element.count);
-		              		})
-		                }
-					})
+				var index=$(this).data("index");
+				var obj=$("#count"+index);
+				var count=obj.val();
+				var stock=obj.data("goodsstock");
+				var gId=obj.data("goodsid");
+				if(count>1){
+					obj.val(--count);
+					updateCart(index,gId,count);
 				}
 			})
 			var timer=0;
-			$(".num").keyup(function() {
+			$(".count").keyup(function() {
 				clearTimeout(timer);
+				var index=$(this).data("index");
 				timer=setTimeout(function(){
-					var num=$(this).val();
-					var numPrev=$(this).data("count");
-					var stock=$(this).prev().data("goodsstock");
-					var gId=$(this).data("goodsid");
-					if (num< 1) {
-						$(this).val(1);
-					}else if(num>stock){
-						$(this).val(stock);
-					}
-					if(num>numPrev){
-						$.ajax({
-							type: "post",
-			                url: "increaseGoods.do",
-			                data: {"goods.id":gId,count:num-numPrev},
-			                dataType: "json",
-			              	success: function(data){
-			                }
-						})
-					}else if(num<numPrev){
-						$.ajax({
-							type: "post",
-			                url: "decreaseGoods.do",
-			                data: {"goods.id":gId,count:numPrev-num},
-			                dataType: "json",
-			              	success: function(data){
-			                }
-						})
+					var obj=$("#count"+index);
+					var count=obj.val();
+					var stock=obj.data("goodsstock");
+					var gId=obj.data("goodsid");
+					if (count< 1) {
+						obj.val(1);
+					}else if(count>stock){
+						obj.val(stock);
+					}else{
+						obj.val(count);
+						updateCart(index,gId,count);
 					}
 				},1000)
 			})
 			$(".increase").click(function(){
-				var num=$(this).prev().val();
-				var numPrev=$(this).data("count");
-				var stock=$(this).prev().data("goodsstock");
-				if(num<stock){
-					$(this).prev().val(++num);
-					var gId=$(this).prev().data("goodsid");
-					$.ajax({
-						type: "get",
-		                url: "increaseGoods.do?goods.id="+gId,
-		                data: {"goods.id":gId,"count":num-numPrev},
-		                dataType: "json",
-		              	success: function(data){
-		              		console.log(data.count);
-		                }
-					})
+				var index=$(this).data("index");
+				var obj=$("#count"+index);
+				var count=obj.val();
+				var stock=obj.data("goodsstock");
+				var gId=obj.data("goodsid");
+				if(count<stock){
+					obj.val(++count);
+					updateCart(index,gId,count);
 				}
 			})
+			function updateCart(index,gId,count){
+				$.ajax({
+					type: "post",
+	                url: "updateCart.do",
+	                data: {"goods.id":gId,"count":count},
+	                dataType: "json",
+	              	success: function(data){
+	              		$("#l_amount"+index).html(data.l_amount);
+	                }
+				})
+			}
 			$(".deleteOne").click(function(){
 				var gId=$(this).data("goodsid");
 				location.href="delete.do?goods.id=gId&count="+$(".num").val();
@@ -217,7 +199,7 @@
 							</ul>
 						</td>
 					</tr>
-					<c:forEach items="${cartList }" var="cart">
+					<c:forEach items="${cartList }" var="cart" varStatus="status">
 						<tr>
 							<th><input type="checkbox"  style="margin-left:10px; float:left"></th>
 							<th class="tab-th-1">
@@ -232,11 +214,11 @@
 								<p class="red">${cart.goods.price }</p>
 							</th>
 							<th class="tab-th-2">
-								<span class="decrease">-</span>
-								<input class="num shul" data-goodsid="${cart.goods.id }" data-goodsstock="${cart.goods.stock}" data-count="${cart.count}" type="text" value="${cart.count }" maxlength="3" placeholder="">
-								<span class="increase">+</span>
+								<span data-index="${status.index }" class="decrease">-</span>
+								<input id="count${status.index }" class="count shul" data-index="${status.index }" data-goodsid="${cart.goods.id }" data-goodsstock="${cart.goods.stock}" type="text" value="${cart.count }" maxlength="3" placeholder="">
+								<span class="increase" data-index="${status.index }">+</span>
 							</th>
-							<th class="red">${cart.l_amount }</th>
+							<th id="l_amount${status.index }" class="red">${cart.l_amount }</th>
 							<th><a class="deleteOne" data-goodsid="${cart.goods.id }">删除</a></th>
 						</tr>
 					</c:forEach>
@@ -256,7 +238,7 @@
 			</div>
 			<div class="fr pc-shop-fr">
 				<p>共有 <em class="red pc-shop-shu">2</em> 款商品，总计（不含运费）</p>
-				<span>¥ ${cartList[0].user.t_amount }</span>
+				<span class="t_amount">¥ ${cartList[0].user.t_amount }</span>
 				<a href="my-add.html">去付款</a>
 			</div>
 		</div>

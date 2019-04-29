@@ -29,27 +29,15 @@ public class CartController {
 		return "redirect:list.do";
 	}
 	
-	//增加购物车中的商品
-	@RequestMapping(value="increaseGoods",produces="application/json;charset=UTF-8")
+	//改变购物车中的商品
+	@RequestMapping(value="updateCart",produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public Cart increaseGoods(Cart cart) {
+	public Cart updateCart(Cart cart) {
 		User user=new User();
 		user.setId(1);
 		cart.setUser(user);
-		cService.increaseGoods(cart);
-		Cart c=cService.searchByCart(cart);
-		System.out.println(123);
+		Cart c =cService.updateCart(cart);
 		return c;
-	}
-
-	//减少购物车中的商品
-	@RequestMapping("decreaseGoods")
-	public String decreaseGoods(Cart cart) {
-		User user=new User();
-		user.setId(1);
-		cart.setUser(user);
-		cService.decreaseGoods(cart);
-		return "redirect:list.do";
 	}
 	
 	//删除购物车中的商品
