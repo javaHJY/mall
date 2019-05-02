@@ -87,10 +87,11 @@ public class CartServiceImpl implements CartService {
 	}
 
 	//购物车中商品删除
-	public boolean deleteGoods(Cart cart) {
+	public boolean deleteCart(int id) {
 		int rs=0;
+		Cart cart=cDao.searchById(id);
 		//删除购物车表中的信息
-		rs=cDao.deleteGoods(cart);
+		rs=cDao.deleteCart(id);
 		//改变商品表数据
 		Goods goods=gDao.searchById(cart.getGoods().getId());
 		goods.setStock(goods.getStock()+cart.getCount());

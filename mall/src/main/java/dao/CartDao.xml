@@ -10,8 +10,16 @@
 		insert into cart(u_id,g_id,count,l_amount) values(#{cart.user.id},#{cart.goods.id},#{cart.count},#{cart.l_amount}) 
 	</insert>
 	<!-- 购物车删除商品 -->
-	<delete id="deleteGoods">
-		delete from cart where u_id=#{cart.user.id} and g_id=#{cart.goods.id}
+	<delete id="deleteCart">
+		delete from cart where id=#{id}
+	</delete>
+	<delete id="deleteCarts">
+		delete from cart
+		where id in(
+		<foreach collection="cartIds" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
 	</delete>
 	<!-- 修改购物车 -->
 	<update id="updateCart">
@@ -24,6 +32,10 @@
 	<!-- 根据购物车信息查询购物车 -->
 	<select id="searchByCart" resultMap="CartAndGoods">
 		select * from cart where u_id=#{cart.user.id} and g_id=#{cart.goods.id}
+	</select>
+	<!-- 根据id查询购物车 -->
+	<select id="searchById" resultMap="CartAndGoods">
+		select * from cart where id=#{id}
 	</select>
 	<resultMap type="entity.Cart" id="CartAndGoods">
 		<id property="id" column="id"/>

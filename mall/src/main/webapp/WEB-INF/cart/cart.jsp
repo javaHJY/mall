@@ -42,8 +42,10 @@
 					var gId=obj.data("goodsid");
 					if (count< 1) {
 						obj.val(1);
+						updateCart(index,gId,1);
 					}else if(count>stock){
 						obj.val(stock);
+						updateCart(index,gId,stock);
 					}else{
 						obj.val(count);
 						updateCart(index,gId,count);
@@ -73,8 +75,40 @@
 				})
 			}
 			$(".deleteOne").click(function(){
-				var gId=$(this).data("goodsid");
-				location.href="delete.do?goods.id=gId&count="+$(".num").val();
+				var id=$(this).data("id");
+				var index=$(this).data("index");
+				$.ajax({
+					type:"post",
+					url:"delete.do",
+					data:{id:id},
+					dataType:"json",
+					success:function(data){
+						if(data==true){
+							$("#tr"+index).remove();
+						}
+					}
+				})
+			})
+			$(".checkbox").click(function(){
+				var sum=0;
+				$(".checkbox").each(function(index,element){
+					if($(element).prop("checked")==true){
+						var index=$(element).data("index");
+						var l_amount=parseFloat($("#l_amount"+index).text());
+						sum+=l_amount;
+					}
+				})
+				$("#t_amount").text(sum);
+			})
+			$("#generateOrder").click(function(){
+				var array=new Array();
+				$(".checkbox").each(function(index,element){
+					if($(element).prop("checked")==true){
+						var id=$(element).data("id");
+						array.push(id);
+					}
+				})
+				location.href="../order/generateOrder.do?cartIds="+array;
 			})
 		})
 	</script>
@@ -200,8 +234,8 @@
 						</td>
 					</tr>
 					<c:forEach items="${cartList }" var="cart" varStatus="status">
-						<tr>
-							<th><input type="checkbox"  style="margin-left:10px; float:left"></th>
+						<tr id="tr${status.index }">
+							<th><input type="checkbox" data-id="${cart.id }" data-index="${status.index }" class="checkbox" style="margin-left:10px; float:left"></th>
 							<th class="tab-th-1">
 								<a href="../goods/detail.do?id=${cart.goods.id }"><img src="../${cart.goods.photoList[0].cover }" width="100%" alt=""></a>
 								<a href="../goods/detail.do?id=${cart.goods.id }" class="tab-title">${cart.goods.name }</a>
@@ -219,7 +253,7 @@
 								<span class="increase" data-index="${status.index }">+</span>
 							</th>
 							<th id="l_amount${status.index }" class="red">${cart.l_amount }</th>
-							<th><a class="deleteOne" data-goodsid="${cart.goods.id }">删除</a></th>
+							<th><a class="deleteOne" data-id="${cart.id }" data-index="${status.index }" href="javascript:return false">删除</a></th>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -238,8 +272,8 @@
 			</div>
 			<div class="fr pc-shop-fr">
 				<p>共有 <em class="red pc-shop-shu">2</em> 款商品，总计（不含运费）</p>
-				<span class="t_amount">¥ ${cartList[0].user.t_amount }</span>
-				<a href="my-add.html">去付款</a>
+				<span>¥</span><span id="t_amount"> ${cartList[0].user.t_amount }</span>
+				<a id="generateOrder" href="javascript:return false">去付款</a>
 			</div>
 		</div>
 	</div>

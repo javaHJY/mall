@@ -42,12 +42,10 @@ public class CartController {
 	
 	//删除购物车中的商品
 	@RequestMapping("delete")
-	public String delete(Cart cart) {
-		User user=new User();
-		user.setId(1);
-		cart.setUser(user);
-		cService.deleteGoods(cart);
-		return "redirect:list.do";
+	@ResponseBody
+	public boolean delete(int id) {
+		boolean flag=cService.deleteCart(id);
+		return flag;
 	}
 	
 	//展示购物车商品
