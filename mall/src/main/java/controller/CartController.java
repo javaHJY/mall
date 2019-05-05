@@ -50,7 +50,7 @@ public class CartController {
 	
 	//展示购物车商品
 	@RequestMapping("list")
-	public ModelAndView showList() {
+	public ModelAndView list() {
 		ModelAndView mav=new ModelAndView("cart/cart");
 		User user=new User();
 		user.setId(1);

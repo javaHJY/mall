@@ -157,7 +157,7 @@
 					<ul>
 						<li>
 							<div class="nav">
-								<i class="pc-top-icon"></i><a href="#">我的订单</a>
+								<i class="pc-top-icon"></i><a href="../order/showOrder.do">我的订单</a>
 							</div>
 							<div class="con">
 								<dl>

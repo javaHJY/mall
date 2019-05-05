@@ -111,7 +111,7 @@
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>
-						<div class="nav"><i class="pc-top-icon"></i><a href="#">我的订单</a></div>
+						<div class="nav"><i class="pc-top-icon"></i><a href="../order/showOrder.do">我的订单</a></div>
 						<div class="con">
 							<dl>
 								<dt><a href="">批发进货</a></dt>
