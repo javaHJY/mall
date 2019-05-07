@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.OrderDetailDao">
+	<!-- 添加订单详情 -->
+	<insert id="addOrderDetail">
+		insert into order_goods(o_id,g_id,price,count,amount)
+		values
+		<foreach collection="odList" item="od" separator=",">
+			(#{order.id},#{od.goods.id},#{od.price},#{od.count},#{od.lAmount})
+		</foreach>
+	</insert>
+	<!-- 根据订单id查询订单详情 -->
+	<select id="searchByOrderId" resultMap="OrderDetail">
+		select * from order_goods where o_id=#{id}
+	</select>
+	<!-- 订单详情自对应 -->
+	<resultMap type="entity.OrderDetail" id="OrderDetail">
+		<id property="id" column="id"/>
+		<result property="price" column="price"/>
+		<result property="count" column="count"/>
+		<result property="lAmount" column="amount"/>
+		<association property="order" column="o_id" select="dao.OrderDao.searchById" ></association>
+		<association property="goods" column="g_id" select="dao.GoodsDao.searchById" ></association>
+	</resultMap>
+</mapper> 
+    
