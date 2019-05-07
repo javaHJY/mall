@@ -4,7 +4,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dao.PhotoDao">
-	
 	<select id="searchByGoodsId" resultType="entity.Photo">
 		select * from photo where g_id=#{id}
 	</select>
