@@ -266,15 +266,20 @@
 
 	<div class="Xcontent">
 		<ul class="Xcontent01">
-
 			<div class="Xcontent06">
-				<img src="../${goods.photoList[0].cover }">
+				<c:forEach items="${goods.photoList }" var="p">
+					<c:if test="${p.cover==1 }">
+						<img src="${p.path }">
+					</c:if>
+				</c:forEach>
 			</div>
 			<ol class="Xcontent08">
 				<c:forEach items="${goods.photoList }" var="p">
-					<div class="Xcontent07">
-						<img src="../${p.path }">
-					</div>
+					<c:if test="${p.cover==0 }">
+						<div class="Xcontent07">
+							<img src="${p.path }">
+						</div>
+					</c:if>
 				</c:forEach>
 			</ol>
 			<ol class="Xcontent13 clearfix">
@@ -305,10 +310,10 @@
 				<div class="Xcontent26">
 					<p class="Xcontent27">颜色</p>
 					<div class="Xcontent28">
-						<img src="../${goods.photoList[0].cover }">
+						<img src="${goods.photoList[0].path }">
 					</div>
 					<div class="Xcontent29">
-						<img src="../${goods.photoList[0].path }">
+						<img src="${goods.photoList[1].path }">
 					</div>
 				</div>
 				<div class="Xcontent30">

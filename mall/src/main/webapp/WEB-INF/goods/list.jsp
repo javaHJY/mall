@@ -219,7 +219,15 @@
 					<ul>
 						<c:forEach items="${list }" var="goods">
 							<li>
-								<div class="digit1"><a href="detail.do?id=${goods.id }"><img src="../${goods.photoList[0].cover }" width="100%"></a></div>
+								<div class="digit1">
+									<a href="detail.do?id=${goods.id }">
+										<c:forEach items="${goods.photoList }" var="p">
+											<c:if test="${p.cover==1 }">
+												<img src="${p.path }" width="100%">
+											</c:if>
+										</c:forEach>
+									</a>
+								</div>
 								<div class="digit3">${goods.price }</div>
 								<div class="digit2"><a href="detail.do?id=${goods.id }">${goods.name }</a></div>
 							</li>

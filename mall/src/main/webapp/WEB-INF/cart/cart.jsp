@@ -237,7 +237,13 @@
 						<tr id="tr${status.index }">
 							<th><input type="checkbox" data-id="${cart.id }" data-index="${status.index }" class="checkbox" style="margin-left:10px; float:left"></th>
 							<th class="tab-th-1">
-								<a href="../goods/detail.do?id=${cart.goods.id }"><img src="../${cart.goods.photoList[0].cover }" width="100%" alt=""></a>
+								<a href="../goods/detail.do?id=${cart.goods.id }">
+									<c:forEach items="${cart.goods.photoList }" var="p">
+										<c:if test="${p.cover==1 }">
+											<img src="../goods/${p.path }" width="100%" alt="">
+										</c:if>
+									</c:forEach>
+								</a>
 								<a href="../goods/detail.do?id=${cart.goods.id }" class="tab-title">${cart.goods.name }</a>
 							</th>
 							<th>
@@ -272,7 +278,7 @@
 			</div>
 			<div class="fr pc-shop-fr">
 				<p>共有 <em class="red pc-shop-shu">2</em> 款商品，总计（不含运费）</p>
-				<span>¥</span><span id="t_amount"> ${cartList[0].user.t_amount }</span>
+				<span>¥</span><span id="t_amount">0</span>
 				<a id="generateOrder" href="javascript:return false">去付款</a>
 			</div>
 		</div>
