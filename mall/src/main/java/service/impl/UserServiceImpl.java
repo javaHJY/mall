@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 		}
 		User searchUser=userDao.searchByUsername(user.getUsername());
 		if(searchUser!=null) {
-			if(searchUser.getPassword()!=Encript.getMd5(password)) {
+			if(!searchUser.getPassword().equals(Encript.getMd5(password))) {
 				throw new UserException("密码不正确");
 			}
 		}else {
@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	//用户注册
 	public boolean regist(User user) {
+		int rs=0;
 		String username=user.getUsername();
 		String password=user.getPassword();
 		if(null==username||"".equals(username)) {
@@ -52,7 +53,14 @@ public class UserServiceImpl implements UserService {
 		if(password.length()<3||password.length()>16) {
 			throw new UserException("密码长度不能小于3且不能大于16");
 		}
-		return false;
+		User searchUser=userDao.searchByUsername(username);
+		if(searchUser!=null) {
+			throw new UserException("该用户已存在");
+		}else {
+			user.setPassword(Encript.getMd5(user.getPassword()));
+			rs=userDao.addUser(user);
+		}
+		return rs>0;
 	}
 	
 //	//判断用户是否合法

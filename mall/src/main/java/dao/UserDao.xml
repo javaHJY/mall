@@ -5,8 +5,17 @@
 
 <mapper namespace="dao.UserDao">
 	
+	<!-- 添加用户 -->
+	<insert id="addUser">
+		insert into user(username,password,telephone) values(#{username},#{password},#{telephone})
+	</insert>
+	<!-- 根据id查询用户信息 -->
 	<select id="searchById" resultType="entity.User">
 		select * from user where id=#{id}
+	</select>
+	<!-- 根据username查询用户信息 -->
+	<select id="searchByUsername" resultType="entity.User">
+		select * from user where username=#{username}
 	</select>
 </mapper> 
     

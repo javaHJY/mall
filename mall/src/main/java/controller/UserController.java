@@ -1,6 +1,10 @@
 package controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import entity.User;
 import service.UserService;
 import util.UserException;
+import util.VerifyCode;
 
 @Controller
 @RequestMapping("user")
@@ -33,15 +38,18 @@ public class UserController {
 	
 	//用户登录
 	@RequestMapping("login")
-	public ModelAndView login(User user,HttpServletRequest request) {
+	public ModelAndView login(User user,String verifycode,HttpServletRequest request) {
 		ModelAndView mav=null;
 		HttpSession session=request.getSession();
 		try {
+			if(!((String)(session.getAttribute("verifycode"))).equalsIgnoreCase(verifycode)) {
+				throw new UserException("验证码不一致");
+			}
 			User searchUser=userService.login(user);
-			mav=new ModelAndView();
+			mav=new ModelAndView("user/user");
 			session.setAttribute("user", searchUser);
 		}catch(UserException e){
-			mav=new ModelAndView();
+			mav=new ModelAndView("user/login");
 			mav.addObject("user", user);
 			mav.addObject("error", e.getMessage());
 		}
@@ -50,19 +58,31 @@ public class UserController {
 	
 	//用户注册
 	@RequestMapping("regist")
-	public ModelAndView regist(User user,HttpServletRequest request) {
+	public ModelAndView regist(User user,String verifycode,HttpServletRequest request) {
 		ModelAndView mav=null;
 		HttpSession session=request.getSession();
 		try {
+			if(!((String)(session.getAttribute("verifycode"))).equalsIgnoreCase(verifycode)) {
+				throw new UserException("验证码不一致");
+			}
 			userService.regist(user);
-			mav=new ModelAndView("login");
+			mav=new ModelAndView("user/login");
 			session.setAttribute("user", user);
 		}catch(UserException e) {
-			mav=new ModelAndView("regist");
+			mav=new ModelAndView("user/regist");
 			mav.addObject("user", user);
 			mav.addObject("error", e.getMessage());
 		}
 		return mav;
+	}
+	
+	//生成验证码
+	@RequestMapping("createVerifyCode")
+	public void createVerify(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		VerifyCode vc=VerifyCode.getInstance();
+		BufferedImage image=vc.getImage();
+		vc.output(image, response.getOutputStream());
+		request.getSession().setAttribute("verifycode", vc.getText());
 	}
 	
 	//忘记密码

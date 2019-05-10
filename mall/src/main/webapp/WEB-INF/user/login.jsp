@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +15,14 @@
 	<link rel="shortcut icon" type="image/x-icon" href="../img/icon/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="../css/base.css">
 	<link rel="stylesheet" type="text/css" href="../css/home.css">
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript">
+		$().ready(function(){
+			$("#changeVerify").click(function(){
+				$(this).attr("src","createVerifyCode.do?time="+new Date().getTime());
+			})
+		})
+	</script>
 </head>
 <body>
 	<header id="pc-header">
@@ -32,12 +41,18 @@
 				<div class="fr pc-login-box">
 					<div class="pc-login-title"><h2>用户登录</h2></div>
 					<form action="login.do" method="post">
-						<div style="color:red;">${error }</div>
+						<c:if test="${not empty error }">
+							<div style="color:red;">${error }</div>
+						</c:if>
 						<div class="pc-sign">
-							<input type="text" name="username" placeholder="用户名/邮箱/手机号">${user.username }
+							<input type="text" name="username" placeholder="用户名/邮箱/手机号" value="${user.username }">
 						</div>
 						<div class="pc-sign">
-							<input type="password" name="password" placeholder="请输入您的密码">${user.password }
+							<input type="password" name="password" placeholder="请输入您的密码">
+						</div>
+						<div class="pc-sign">
+							<input type="password" name="verifycode" placeholder="请输入您的验证码">
+							<img id="changeVerify" src="createVerifyCode.do">
 						</div>
 						<div class="pc-submit-ss">
 							<input type="submit" value="登录">

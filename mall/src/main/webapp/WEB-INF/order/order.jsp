@@ -31,7 +31,10 @@
 <header id="pc-header">
 	<div class="pc-header-nav">
 		<div class="pc-header-con">
-			<div class="fl pc-header-link" >您好！，欢迎来云购物 <a href="login.html" target="_blank">请登录</a> <a href="register.html" target="_blank"> 免费注册</a></div>
+			<div class="fl pc-header-link" >您好！，欢迎来云购物 
+				<a href="../user/goLogin.do" target="_blank">请登录</a>
+				<a href="../user/goRegist.do" target="_blank"> 免费注册</a>
+			</div>
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>
@@ -98,7 +101,9 @@
 		<!-- 导航   start  -->
 		<div class="yNavIndex">
 			<ul class="yMenuIndex" style="margin-left:0">
-				<li style="background:#d1201e"><a href="" target="_blank">云购首页</a></li>
+				<li style="background:#d1201e">
+					<a href="" target="_blank">云购首页</a>
+				</li>
 				<li><a href="" target="_blank">女士护肤 </a></li>
 				<li><a href="" target="_blank">男士护肤</a></li>
 				<li><a href="" target="_blank">洗护染发</a></li>
@@ -229,7 +234,8 @@
 								</div>
 								<!--点击弹出新增/收货地址界面end-->
 								<div class="xm-edit-addr-backdrop" id="J_editAddrBackdrop"></div>
-							</div>                </div>
+							</div>
+						</div>
 						<!-- 收货地址 END-->
 						<div id="checkoutPayment">
 							<!-- 支付方式 -->

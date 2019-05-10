@@ -20,6 +20,40 @@
 	<script type="text/javascript" src="../js/modernizr-custom-v2.7.1.min.js"></script>
 	<script type="text/javascript">
 		$().ready(function(){
+			//初始化总金额
+			var sum=0;
+			var cartSum=0;
+			$(".checkbox").each(function(index,element){
+				if($(element).prop("checked")==true){
+					var index=$(element).data("index");
+					var l_amount=parseFloat($("#l_amount"+index).text());
+					sum+=l_amount;
+					cartSum++;
+				}
+				$("#cartSum").text(cartSum);
+			})
+			$("#t_amount").text(sum);
+			$(".allSelect").click(function(){
+				if($(this).prop("checked")==true){
+					//全选
+					$(".checkbox").prop("checked",true);
+					var sum=0;
+					$(".checkbox").each(function(index,element){
+						if($(element).prop("checked")==true){
+							var index=$(element).data("index");
+							var l_amount=parseFloat($("#l_amount"+index).text());
+							sum+=l_amount;
+						}
+					})
+					$("#t_amount").text(sum);
+					$(".allSelect").prop("checked",true);
+				}else{
+					//取消全选
+					$("#t_amount").text(0);
+					$(".checkbox").prop("checked",false);
+					$(".allSelect").prop("checked",false);
+				}
+			})
 			$(".decrease").click(function(){
 				var index=$(this).data("index");
 				var obj=$("#count"+index);
@@ -70,7 +104,12 @@
 	                data: {"goods.id":gId,"count":count},
 	                dataType: "json",
 	              	success: function(data){
+	              		var prevL_amount=$("#l_amount"+index).html();
 	              		$("#l_amount"+index).html(data.l_amount);
+						if($("#tr"+index+" .checkbox").prop("checked")==true){
+							var sum=$("#t_amount").text()-prevL_amount+data.l_amount;
+							$("#t_amount").text(sum);
+						}
 	                }
 				})
 			}
@@ -84,12 +123,29 @@
 					dataType:"json",
 					success:function(data){
 						if(data==true){
+							var l_amount=$("#l_amount"+index).html();
 							$("#tr"+index).remove();
+							$("#t_amount").text($("#t_amount").text()-l_amount);
+							$("#cartSum").text(--cartSum);
 						}
 					}
 				})
 			})
 			$(".checkbox").click(function(){
+				if($(this).prop("checked")==false){
+					$(".allSelect").prop("checked",false);
+				}else{
+					var flag=true;
+					$(".checkbox").each(function(index,element){
+						if($(element).prop("checked")==false){
+							flag=false;
+							return false;
+						}
+					})
+					if(flag){
+						$(".allSelect").prop("checked",true);
+					}
+				}
 				var sum=0;
 				$(".checkbox").each(function(index,element){
 					if($(element).prop("checked")==true){
@@ -108,7 +164,9 @@
 						array.push(id);
 					}
 				})
-				location.href="../order/generateOrder.do?cartIds="+array;
+				if(array.length!=0){
+					location.href="../order/generateOrder.do?cartIds="+array;
+				}
 			})
 		})
 	</script>
@@ -212,7 +270,10 @@
 			<table>
 				<thead>
 					<tr class="tab-0">
-						<th class="tab-1"><input type="checkbox" name="s_all" class="s_all tr_checkmr" id="s_all_h"><label for=""> 全选</label></th>
+						<th class="tab-1">
+							<input type="checkbox" name="s_all" checked="checked" class="s_all tr_checkmr allSelect" id="s_all_h">
+							<label for=""> 全选</label>
+						</th>
 						<th class="tab-2">商品</th>
 						<th class="tab-3">商品信息</th>
 						<th class="tab-4">单价</th>
@@ -235,7 +296,7 @@
 					</tr>
 					<c:forEach items="${cartList }" var="cart" varStatus="status">
 						<tr id="tr${status.index }">
-							<th><input type="checkbox" data-id="${cart.id }" data-index="${status.index }" class="checkbox" style="margin-left:10px; float:left"></th>
+							<th><input type="checkbox" checked="checked" data-id="${cart.id }" data-index="${status.index }" class="checkbox" style="margin-left:10px; float:left"></th>
 							<th class="tab-th-1">
 								<a href="../goods/detail.do?id=${cart.goods.id }">
 									<c:forEach items="${cart.goods.photoList }" var="p">
@@ -271,14 +332,14 @@
 	<div class="center">
 		<div class="clearfix pc-shop-go">
 			<div class="fl pc-shop-fl">
-				<input type="checkbox" placeholder="">
+				<input class="allSelect" checked="checked" type="checkbox" placeholder="">
 				<label for="">全选</label>
 				<a href="#">删除</a>
 				<a href="#">清楚失效商品</a>
 			</div>
 			<div class="fr pc-shop-fr">
-				<p>共有 <em class="red pc-shop-shu">2</em> 款商品，总计（不含运费）</p>
-				<span>¥</span><span id="t_amount">0</span>
+				<p>共有 <em class="red pc-shop-shu" id="cartSum"></em> 款商品，总计（不含运费）</p>
+				<span>¥</span><span id="t_amount"></span>
 				<a id="generateOrder" href="javascript:return false">去付款</a>
 			</div>
 		</div>
@@ -328,7 +389,7 @@
 				<li class="lss">
 					<span>下载手机版</span>
 					<div class="clearfix lss-pa">
-						<div class="fl lss-img"><img src="img/icon/code.png" alt=""></div>
+						<div class="fl lss-img"><img src="../img/icon/code.png" alt=""></div>
 						<div class="fl" style="padding-left:20px">
 							<h4>扫描下载云购APP</h4>
 							<p>把优惠握在手心</p>

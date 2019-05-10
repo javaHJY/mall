@@ -4,6 +4,7 @@ public class User {
 	private int id;//用户id
 	private String username;//用户名
 	private String password;//密码
+	private String telephone;//手机号
 	
 	public int getId() {
 		return id;
@@ -22,5 +23,11 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 }
