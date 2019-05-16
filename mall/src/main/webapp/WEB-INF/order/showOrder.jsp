@@ -182,7 +182,6 @@
 		<div class="fr pc-head-car">
 			<i class="icon-car"></i>
 			<a href="../cart/list.do">我的购物车</a>
-			<em>10</em>
 		</div>
 	</div>
 	<!--  顶部    start-->
@@ -247,7 +246,7 @@
 			<div class="member-whole clearfix">
 				<ul id="H-table" class="H-table">
 					<li class="cur"><a href="showOrder.do">我的订单</a></li>
-					<li><a href="#">待付款<em>(44)</em></a></li>
+					<li><a href="#">待付款</a></li>
 					<li><a href="#">待发货</a></li>
 					<li><a href="#">待收货</a></li>
 					<li><a href="#">交易完成</a></li>
@@ -297,127 +296,45 @@
 										<div class="ci2">${order.user.username }</div>
 										<div class="ci3"><b>￥${order.totalAmount }</b><p>货到付款</p><p class="iphone">手机订单</p></div>
 										<div class="ci4"><p>2015-09-22</p></div>
-										<div class="ci5"><p>${order.status }</p> <p><a href="#">订单详情</a></p></div>
-										<div class="ci5 ci8"><p><a href="#">查看</a> | <a href="#">删除</a></p> <p></p><p><a href="#" class="member-touch">确认收货</a></p></div>
+										<div class="ci5">
+											<p>${order.status }</p> 
+											<p><a href="#">订单详情</a></p>
+										</div>
+										<div class="ci5 ci8">
+											<p><a href="#">查看</a> | <a href="#">删除</a></p> 
+											<p></p>
+											<p><a href="#" class="member-touch">确认收货</a></p>
+										</div>
 									</div>
 								</li>
 							</c:forEach>
 						</ul>
 					</div>
 				</div>
-				<div class="member-return H-over" style="display:none;">
-					<div class="member-cancel clearfix">
-						<span class="be1">订单信息</span>
-						<span class="be2">收货人</span>
-						<span class="be2">订单金额</span>
-						<span class="be2">订单时间</span>
-						<span class="be2">订单状态</span>
-						<span class="be2">订单操作</span>
-					</div>
-					<div class="member-sheet clearfix">
-						<ul>
-							<li>
-								<div class="member-minute clearfix">
-									<span>2015-09-22 18:22:33</span>
-									<span>订单号：<em>98653056821</em></span>
-									<span><a href="#">以纯甲醇旗舰店</a></span>
-									<span class="member-custom">客服电话：<em>010-6544-0986</em></span>
-								</div>
-								<div class="member-circle clearfix">
-									<div class="ci1">
-										<div class="ci7 clearfix">
-											<span class="gr1"><a href="#"><img src="../theme/img/pd/m1.png" title="" about="" width="60" height="60"></a></span>
-											<span class="gr2"><a href="#">红米Note2 标准版 白色 移动4G手机 双卡双待</a></span>
-											<span class="gr3">X1</span>
-										</div>
-										<div class="ci7 clearfix">
-											<span class="gr1"><a href="#"><img src="../theme/img/pd/m2.png" title="" about="" width="60" height="60"></a></span>
-											<span class="gr2"><a href="#">AXON天机mini NBA限量版</a></span>
-											<span class="gr3">X9</span>
-										</div>
-									</div>
-									<div class="ci2">张子琪</div>
-									<div class="ci3"><b>￥120.00</b><p>货到付款</p><p class="iphone">手机订单</p></div>
-									<div class="ci4"><p>2015-09-22</p></div>
-									<div class="ci5"><p>已申请退货</p> <p><a href="#">退货日志</a></p></div>
-									<div class="ci6"><p><a href="#">取消退货</a> </p></div>
-								</div>
-							</li>
-							<li>
-								<div class="member-minute clearfix">
-									<span>2015-09-22 18:22:33</span>
-									<span>订单号：<em>98653056821</em></span>
-									<span><a href="#">以纯甲醇旗舰店</a></span>
-									<span class="member-custom">客服电话：<em>010-6544-0986</em></span>
-								</div>
-								<div class="member-circle clearfix">
-									<div class="ci1">
-										<div class="ci7 clearfix">
-											<span class="gr1"><a href="#"><img src="../theme/img/pd/m1.png" title="" about="" width="60" height="60"></a></span>
-											<span class="gr2"><a href="#">红米Note2 标准版 白色 移动4G手机 双卡双待</a></span>
-											<span class="gr3">X1</span>
-										</div>
-										<div class="ci7 clearfix">
-											<span class="gr1"><a href="#"><img src="../theme/img/pd/m2.png" title="" about="" width="60" height="60"></a></span>
-											<span class="gr2"><a href="#">AXON天机mini NBA限量版</a></span>
-											<span class="gr3">X9</span>
-										</div>
-									</div>
-									<div class="ci2">张子琪</div>
-									<div class="ci3"><b>￥120.00</b><p>货到付款</p><p class="iphone">手机订单</p></div>
-									<div class="ci4"><p>2015-09-22</p></div>
-									<div class="ci5"><p>已完成</p> <p><a href="#">订单详情</a></p></div>
-									<div class="ci6"><p><a href="#">取消退货</a> </p></div>
-								</div>
-							</li>
-							<li>
-								<div class="member-minute clearfix">
-									<span>2015-09-22 18:22:33</span>
-									<span>订单号：<em>98653056821</em></span>
-									<span><a href="#">以纯甲醇旗舰店</a></span>
-									<span class="member-custom">客服电话：<em>010-6544-0986</em></span>
-								</div>
-								<div class="member-circle clearfix">
-									<div class="ci1">
-										<div class="ci7 clearfix">
-											<span class="gr1"><a href="#"><img src="../theme/img/pd/m1.png" title="" about="" width="60" height="60"></a></span>
-											<span class="gr2"><a href="#">红米Note2 标准版 白色 移动4G手机 双卡双待</a></span>
-											<span class="gr3">X1</span>
-										</div>
-										<div class="ci7 clearfix">
-											<span class="gr1"><a href="#"><img src="../theme/img/pd/m2.png" title="" about="" width="60" height="60"></a></span>
-											<span class="gr2"><a href="#">AXON天机mini NBA限量版</a></span>
-											<span class="gr3">X9</span>
-										</div>
-									</div>
-									<div class="ci2">张子琪</div>
-									<div class="ci3"><b>￥120.00</b><p>货到付款</p><p class="iphone">手机订单</p></div>
-									<div class="ci4"><p>2015-09-22</p></div>
-									<div class="ci5"><p>已完成</p> <p><a href="#">订单详情</a></p></div>
-									<div class="ci6"><p><a href="#">取消退货</a> </p></div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="H-over member-over" style="display:none;"><h2>待发货</h2></div>
-				<div class="H-over member-over" style="display:none;"><h2>待收货</h2></div>
-				<div class="H-over member-over" style="display:none;"><h2>交易完成</h2></div>
-				<div class="H-over member-over" style="display:none;"><h2>订单信息</h2></div>
-
 				<div class="clearfix" style="padding:30px 20px;">
 					<div class="fr pc-search-g pc-search-gs">
-						<a style="display:none" class="fl " href="#">上一页</a>
-						<a href="#" class="current">1</a>
-						<a href="javascript:;">2</a>
-						<a href="javascript:;">3</a>
-						<a href="javascript:;">4</a>
-						<a href="javascript:;">5</a>
-						<a href="javascript:;">6</a>
-						<a href="javascript:;">7</a>
-						<span class="pc-search-di">…</span>
-						<a href="javascript:;">1088</a>
-						<a title="使用方向键右键也可翻到下一页哦！" class="" href="javascript:;">下一页</a>
+						<a href="showOrder.do?pageNow=1">首页</a>
+						<a 
+							<c:if test="${p.pageNow!=1 }">
+								href="showOrder.do?pageNow=${p.pageNow-1 }"
+							</c:if>
+						 >上一页</a>
+						<c:forEach begin="${p.start }" end="${p.end }" varStatus="status">
+							<a
+								<c:if test="${p.pageNow==status.index }">
+									class="current"
+								</c:if>
+								href="showOrder.do?pageNow=${status.index }"
+							>
+								${status.index }
+							</a>
+						</c:forEach>
+						<a
+							<c:if test="${p.pageNow!=p.totalPage }">
+								href="showOrder.do?pageNow=${p.pageNow+1 }"
+							</c:if>
+						>下一页</a>
+						<a href="showOrder.do?pageNow=${p.totalPage }">尾页</a>
 					</div>
 				</div>
 			</div>

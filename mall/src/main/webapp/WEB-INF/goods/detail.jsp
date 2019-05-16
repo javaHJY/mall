@@ -122,7 +122,7 @@
 		})
 		$("#increase").click(function() {
 			var num = $("#num").val();
-			if(num<"${goods.stock}"){
+			if(num<parseInt("${goods.stock}")){
 				$('#num').val(++num);
 			}
 		})
@@ -134,8 +134,8 @@
 				if (num < 1) {
 					$("#num").val(1);
 				}
-				if(num>"${goods.stock}"){
-					$('#num').val("${goods.stock}");
+				if(num>parseInt("${goods.stock}")){
+					$("#num").val(parseInt("${goods.stock}"));
 				}
 			},1000)
 		})

@@ -170,7 +170,6 @@
 		<div class="fr pc-head-car">
 			<i class="icon-car"></i>
 			<a href="../cart/list.do">我的购物车</a>
-			<em>10</em>
 		</div>
 	</div>
 	<!--  顶部    start-->

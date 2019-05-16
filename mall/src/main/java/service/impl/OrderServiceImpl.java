@@ -18,6 +18,7 @@ import entity.Order;
 import entity.OrderDetail;
 import entity.User;
 import service.OrderService;
+import util.Pagination;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -101,10 +102,22 @@ public class OrderServiceImpl implements OrderService {
 		List<Order> orderList=orderDao.searchAllOrder(user.getId());
 		return orderList;
 	}
+	
+	//分页展示订单
+	public List<Order> showOrder(User user,Pagination p) {
+		List<Order> orderList=orderDao.searchOrders(user.getId(),p);
+		return orderList;
+	}
 
 	//根据订单id查询订单详情
 	public List<OrderDetail> searchByOrderId(int id) {
 		List<OrderDetail> odList=odDao.searchByOrderId(id);
 		return odList;
+	}
+
+	//获取订单总数
+	public int getDataCount() {
+		int dataCount=orderDao.getDataCount();
+		return dataCount;
 	}
 }

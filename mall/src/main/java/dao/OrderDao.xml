@@ -22,7 +22,15 @@
 	</select>
 	<!-- 查询所有订单 -->
 	<select id="searchAllOrder" resultMap="Order">
-		select * from `order` where u_id=#{id} and status!='尚未确认'
+		select * from `order` where u_id=#{id} and status!='尚未确认' order by id desc
+	</select>
+	<!-- 分页查询订单 -->
+	<select id="searchOrders" resultMap="Order">
+		select * from `order` where u_id=#{id} and status!='尚未确认' order by id desc limit #{p.begin},#{p.dataNums}
+	</select>
+	<!-- 获取订单总数 -->
+	<select id="getDataCount" resultType="int">
+		select count(*) from `order` where status!='尚未确认'
 	</select>
 	<!-- 订单自对应 -->
 	<resultMap type="entity.Order" id="Order">

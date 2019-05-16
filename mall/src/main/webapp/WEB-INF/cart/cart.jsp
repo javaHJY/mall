@@ -176,7 +176,16 @@
 <header id="pc-header">
 	<div class="pc-header-nav">
 		<div class="pc-header-con">
-			<div class="fl pc-header-link" >您好！，欢迎来云购物 <a href="login.html" target="_blank">请登录</a> <a href="register.html" target="_blank"> 免费注册</a></div>
+			<div class="fl pc-header-link" >您好！，欢迎来云购物 
+				<c:if test="${not empty user }">
+					<a>${user.username }</a>
+					<a href="../user/loginOut.do">退出</a>
+				</c:if>
+				<c:if test="${empty user }">
+					<a href="../user/goLogin.do">请登录</a>
+				</c:if>
+				<a href="../user/goRegist.do"> 免费注册</a>
+			</div>
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>

@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import entity.Order;
 import entity.OrderDetail;
 import entity.User;
 import service.OrderService;
+import util.Pagination;
 
 @Controller
 @RequestMapping("order")
@@ -50,14 +52,36 @@ public class OrderController {
 		return mav;
 	}
 	
-	//展示订单
+//	//展示订单
+//	@RequestMapping("showOrder")
+//	public ModelAndView showOrder() {
+//		ModelAndView mav=new ModelAndView("order/showOrder");
+//		User user=new User();
+//		user.setId(1);
+//		//查询订单
+//		List<Order> orderList=orderService.showOrder(user);
+//		//查询订单详情
+//		List<List<OrderDetail>> odList=new ArrayList<>();
+//		int orderSize=orderList.size();
+//		for(int i=0;i<orderSize;i++) {
+//			List<OrderDetail> odList1=orderService.searchByOrderId(orderList.get(i).getId());
+//			odList.add(odList1);
+//		}
+//		mav.addObject("orderList", orderList);
+//		mav.addObject("odList", odList);
+//		return mav;
+//	}
+	
+	//分页展示订单
 	@RequestMapping("showOrder")
-	public ModelAndView showOrder() {
+	public ModelAndView showOrder(@RequestParam(defaultValue="1") int pageNow) {
 		ModelAndView mav=new ModelAndView("order/showOrder");
+		int dataCount=orderService.getDataCount();
+		Pagination p=new Pagination(pageNow, dataCount);
 		User user=new User();
 		user.setId(1);
 		//查询订单
-		List<Order> orderList=orderService.showOrder(user);
+		List<Order> orderList=orderService.showOrder(user,p);
 		//查询订单详情
 		List<List<OrderDetail>> odList=new ArrayList<>();
 		int orderSize=orderList.size();
@@ -67,6 +91,7 @@ public class OrderController {
 		}
 		mav.addObject("orderList", orderList);
 		mav.addObject("odList", odList);
+		mav.addObject("p", p);
 		return mav;
 	}
 }

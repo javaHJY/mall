@@ -85,5 +85,12 @@ public class UserController {
 		request.getSession().setAttribute("verifycode", vc.getText());
 	}
 	
+	//登出
+	@RequestMapping("loginOut")
+	public String loginOut(HttpServletRequest request) {
+		request.getSession().removeAttribute("user");
+		return "redirect:/goods/list.do";
+	}
+	
 	//忘记密码
 }
