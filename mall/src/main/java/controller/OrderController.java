@@ -3,6 +3,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +26,9 @@ public class OrderController {
 	
 	//生成订单
 	@RequestMapping("generateOrder")
-	public ModelAndView generateOrder(Integer[] cartIds) {
+	public ModelAndView generateOrder(Integer[] cartIds,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView("order/order");
-		User user=new User();
-		user.setId(1);
+		User user=(User)(request.getSession().getAttribute("user"));
 		List<OrderDetail> odList=orderService.generateOrder(user,cartIds);
 		mav.addObject("odList", odList);
 		mav.addObject("orderId", odList.get(0).getOrder().getId());
@@ -52,34 +53,13 @@ public class OrderController {
 		return mav;
 	}
 	
-//	//展示订单
-//	@RequestMapping("showOrder")
-//	public ModelAndView showOrder() {
-//		ModelAndView mav=new ModelAndView("order/showOrder");
-//		User user=new User();
-//		user.setId(1);
-//		//查询订单
-//		List<Order> orderList=orderService.showOrder(user);
-//		//查询订单详情
-//		List<List<OrderDetail>> odList=new ArrayList<>();
-//		int orderSize=orderList.size();
-//		for(int i=0;i<orderSize;i++) {
-//			List<OrderDetail> odList1=orderService.searchByOrderId(orderList.get(i).getId());
-//			odList.add(odList1);
-//		}
-//		mav.addObject("orderList", orderList);
-//		mav.addObject("odList", odList);
-//		return mav;
-//	}
-	
 	//分页展示订单
 	@RequestMapping("showOrder")
-	public ModelAndView showOrder(@RequestParam(defaultValue="1") int pageNow) {
+	public ModelAndView showOrder(@RequestParam(defaultValue="1") int pageNow,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView("order/showOrder");
 		int dataCount=orderService.getDataCount();
 		Pagination p=new Pagination(pageNow, dataCount);
-		User user=new User();
-		user.setId(1);
+		User user=(User)(request.getSession().getAttribute("user"));
 		//查询订单
 		List<Order> orderList=orderService.showOrder(user,p);
 		//查询订单详情

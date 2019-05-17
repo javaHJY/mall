@@ -36,6 +36,12 @@ public class UserController {
 		return "user/regist";
 	}
 	
+	//跳转至会员中心页面
+	@RequestMapping("goUser")
+	public String goUser() {
+		return "user/user";
+	}
+	
 	//用户登录
 	@RequestMapping("login")
 	public ModelAndView login(User user,String verifycode,HttpServletRequest request) {
@@ -46,7 +52,7 @@ public class UserController {
 				throw new UserException("验证码不一致");
 			}
 			User searchUser=userService.login(user);
-			mav=new ModelAndView("user/user");
+			mav=new ModelAndView("/index/index");
 			session.setAttribute("user", searchUser);
 		}catch(UserException e){
 			mav=new ModelAndView("user/login");
@@ -89,7 +95,7 @@ public class UserController {
 	@RequestMapping("loginOut")
 	public String loginOut(HttpServletRequest request) {
 		request.getSession().removeAttribute("user");
-		return "redirect:/goods/list.do";
+		return "redirect:/index/list.do";
 	}
 	
 	//忘记密码

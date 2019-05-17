@@ -47,6 +47,7 @@
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>/order/*</url-pattern>
+		<url-pattern>/user/goUser.do</url-pattern>
 	</filter-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

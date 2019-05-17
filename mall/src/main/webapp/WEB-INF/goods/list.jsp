@@ -12,13 +12,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta name="renderer" content="webkit">
 	<title>云购物商城-所有分类</title>
-	<link rel="shortcut icon" type="image/x-icon" href="../img/icon/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="../css/base.css">
-	<link rel="stylesheet" type="text/css" href="../css/home.css">
-	<script type="text/javascript" src="../js/jquery.js"></script>
-	<script type="text/javascript" src="../js/index.js"></script>
-	<script type="text/javascript" src="../js/modernizr-custom-v2.7.1.min.js"></script>
-	<script type="text/javascript" src="../js/jquery.SuperSlide.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/img/icon/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/base.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/home.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/modernizr-custom-v2.7.1.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.SuperSlide.js"></script>
 	<script type="text/javascript">
 
         var intDiff = parseInt(90000);//倒计时总秒数量
@@ -108,13 +108,19 @@
 	<div class="pc-header-nav">
 		<div class="pc-header-con">
 			<div class="fl pc-header-link" >您好！，欢迎来云购物 
-				<a href="../user/goLogin.do" target="_blank">请登录</a> 
-				<a href="../user/goRegist.do" target="_blank"> 免费注册</a>
+				<c:if test="${not empty user }">
+					<a>${user.username }</a>
+					<a href="${pageContext.request.contextPath }/user/loginOut.do">退出</a>
+				</c:if>
+				<c:if test="${empty user }">
+					<a href="${pageContext.request.contextPath }/user/goLogin.do">请登录</a>
+				</c:if>
+				<a href="${pageContext.request.contextPath }/user/goRegist.do"> 免费注册</a>
 			</div>
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>
-						<div class="nav"><i class="pc-top-icon"></i><a href="../order/showOrder.do">我的订单</a></div>
+						<div class="nav"><i class="pc-top-icon"></i><a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a></div>
 						<div class="con">
 							<dl>
 								<dt><a href="">批发进货</a></dt>
@@ -137,7 +143,7 @@
 					</li>
 					<li><a href="#">我的云购</a></li>
 					<li><a href="#">我的收藏</a></li>
-					<li><a href="#">会员中心</a></li>
+					<li><a href="${pageContext.request.contextPath }/user/goUser.do">会员中心</a></li>
 					<li><a href="#">客户服务</a></li>
 					<li><a href="#">帮助中心</a></li>
 				</ul>
@@ -169,7 +175,7 @@
 		</div>
 		<div class="fr pc-head-car">
 			<i class="icon-car"></i>
-			<a href="../cart/list.do">我的购物车</a>
+			<a href="${pageContext.request.contextPath }/cart/list.do">我的购物车</a>
 		</div>
 	</div>
 	<!--  顶部    start-->
@@ -177,13 +183,13 @@
 		<!-- 导航   start  -->
 		<div class="yNavIndex">
 			<ul class="yMenuIndex" style="margin-left:0">
-				<li style="background:#d1201e"><a href="" target="_blank">云购首页</a></li>
-				<li><a href="../goods/list.do" target="_blank">电脑配件 </a></li>
-				<li><a href="" target="_blank">男士护肤</a></li>
-				<li><a href="" target="_blank">洗护染发</a></li>
-				<li><a href="" target="_blank">染发</a></li>
-				<li><a href="" target="_blank">彩妆</a></li>
-				<li><a href="" target="_blank">品牌故事</a></li>
+				<li style="background:#d1201e"><a href="${pageContext.request.contextPath }/index/index.do">云购首页</a></li>
+				<li><a href="${pageContext.request.contextPath }/goods/list.do">电脑配件 </a></li>
+				<li><a href="">男士护肤</a></li>
+				<li><a href="">洗护染发</a></li>
+				<li><a href="">染发</a></li>
+				<li><a href="">彩妆</a></li>
+				<li><a href="">品牌故事</a></li>
 			</ul>
 		</div>
 		<!-- 导航   end  -->
