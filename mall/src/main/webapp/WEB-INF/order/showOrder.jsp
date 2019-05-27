@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,14 +13,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta name="renderer" content="webkit">
 	<title>云购物商城-我的订单</title>
-	<link rel="shortcut icon" type="image/x-icon" href="../img/icon/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="../css/base.css">
-	<link rel="stylesheet" type="text/css" href="../css/home.css">
-	<link rel="stylesheet" type="text/css" href="../css/member.css">
-	<script type="text/javascript" src="../js/jquery.js"></script>
-	<script type="text/javascript" src="../js/index.js"></script>
-	<script type="text/javascript" src="../js/modernizr-custom-v2.7.1.min.js"></script>
-	<script type="text/javascript" src="../js/jquery.SuperSlide.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/img/icon/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/base.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/home.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/member.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/modernizr-custom-v2.7.1.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.SuperSlide.js"></script>
 	<script type="text/javascript">
 
         var intDiff = parseInt(90000);//倒计时总秒数量
@@ -110,9 +111,14 @@
                 if(num>0){
                     $(".input").val(num-1);
                 }
-
             })
-
+			$("#searchButton").click(function(){
+	        	if($("#searchName").val()==""){
+	           		return false;
+	           	}else{
+	           		return true;
+	           	}
+	        })
         })
 	</script>
 
@@ -122,11 +128,23 @@
 <header id="pc-header">
 	<div class="pc-header-nav">
 		<div class="pc-header-con">
-			<div class="fl pc-header-link" >您好！，欢迎来云购物 <a href="login.html" target="_blank">请登录</a> <a href="register.html" target="_blank"> 免费注册</a></div>
+			<div class="fl pc-header-link" >您好！，欢迎来云购物 
+				<c:if test="${not empty user }">
+					<a>${user.username }</a>
+					<a href="${pageContext.request.contextPath }/user/loginOut.do">退出</a>
+				</c:if>
+				<c:if test="${empty user }">
+					<a href="${pageContext.request.contextPath }/user/goLogin.do">请登录</a>
+				</c:if>
+				<a href="${pageContext.request.contextPath }/user/goRegist.do"> 免费注册</a>
+			</div>
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>
-						<div class="nav"><i class="pc-top-icon"></i><a href="showOrder.do">我的订单</a></div>
+						<div class="nav">
+							<i class="pc-top-icon"></i>
+							<a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a>
+						</div>
 						<div class="con">
 							<dl>
 								<dt><a href="">批发进货</a></dt>
@@ -149,7 +167,7 @@
 					</li>
 					<li><a href="#">我的云购</a></li>
 					<li><a href="#">我的收藏</a></li>
-					<li><a href="#">会员中心</a></li>
+					<li><a href="${pageContext.request.contextPath }/user/goUser.do">会员中心</a></li>
 					<li><a href="#">客户服务</a></li>
 					<li><a href="#">帮助中心</a></li>
 				</ul>
@@ -163,9 +181,9 @@
 			</h1>
 		</div>
 		<div class="head-form fl">
-			<form class="clearfix">
-				<input class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机" type="text">
-				<button class="button" onclick="search('key');return false;">搜索</button>
+			<form class="clearfix" action="${pageContext.request.contextPath }/goods/searchByName.do" method="post">
+				<input id="searchName" name="goodsName" class="search-text" accesskey="" id="key" autocomplete="off" type="text">
+				<button id="searchButton" type="submit" class="button">搜索</button>
 			</form>
 			<div class="words-text clearfix">
 				<a href="#" class="red">1元秒爆</a>
@@ -181,7 +199,7 @@
 		</div>
 		<div class="fr pc-head-car">
 			<i class="icon-car"></i>
-			<a href="../cart/list.do">我的购物车</a>
+			<a href="${pageContext.request.contextPath }/cart/list.do">我的购物车</a>
 		</div>
 	</div>
 	<!--  顶部    start-->
@@ -189,7 +207,9 @@
 		<!-- 导航   start  -->
 		<div class="yNavIndex">
 			<ul class="yMenuIndex" style="margin-left:0">
-				<li style="background:#d1201e"><a href="../goods/list.do" target="_blank">云购首页</a></li>
+				<li style="background:#d1201e">
+					<a href="${pageContext.request.contextPath }/index/index.do">云购首页</a>
+				</li>
 				<li><a href="" target="_blank">女士护肤 </a></li>
 				<li><a href="" target="_blank">男士护肤</a></li>
 				<li><a href="" target="_blank">洗护染发</a></li>
@@ -203,12 +223,17 @@
 
 </header>
 
-<div class="containers center"><div class="pc-nav-item"><a href="#">首页</a> &gt; <a href="#">会员中心 </a> &gt; <a href="#">商城快讯</a></div></div>
+<div class="containers center">
+	<div class="pc-nav-item">
+		<a href="#">首页</a> &gt; 
+		<a href="#">会员中心 </a>
+	</div>
+</div>
 <section id="member">
 	<div class="member-center clearfix">
 		<div class="member-left fl">
 			<div class="member-apart clearfix">
-				<div class="fl"><a href="#"><img src="../img/mem.png"></a></div>
+				<div class="fl"><a href="#"><img src="${pageContext.request.contextPath }/img/mem.png"></a></div>
 				<div class="fl">
 					<p>用户名：</p>
 					<p><a href="#">${orderList[0].user.username }</a></p>
@@ -219,7 +244,7 @@
 			<div class="member-lists">
 				<dl>
 					<dt>我的商城</dt>
-					<dd class="cur"><a href="showOrder.do">我的订单</a></dd>
+					<dd class="cur"><a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a></dd>
 					<dd><a href="#">我的收藏</a></dd>
 					<dd><a href="#">账户安全</a></dd>
 					<dd><a href="#">我的评价</a></dd>
@@ -268,7 +293,6 @@
 							<c:forEach items="${orderList }" var="order" varStatus="status">
 								<li>
 									<div class="member-minute clearfix">
-										<span>2015-09-22 18:22:33</span>
 										<span>订单号：<em>${order.no }</em></span>
 										<span><a href="#">外设小店</a></span>
 										<span class="member-custom">客服电话：<em>010-6544-0986</em></span>
@@ -282,7 +306,7 @@
 															<a href="#">
 																<c:forEach items="${od.goods.photoList }" var="p">
 																	<c:if test="${p.cover==1 }">
-																		<img src="../goods/${p.path }" title="" about="" width="60" height="60">
+																		<img src="${pageContext.request.contextPath }/goods/${p.path }" title="" about="" width="60" height="60">
 																	</c:if>
 																</c:forEach>
 															</a>
@@ -295,15 +319,18 @@
 										</div>
 										<div class="ci2">${order.user.username }</div>
 										<div class="ci3"><b>￥${order.totalAmount }</b><p>货到付款</p><p class="iphone">手机订单</p></div>
-										<div class="ci4"><p>2015-09-22</p></div>
+										<div class="ci4"><p>${fn:substring(order.no,0,4) }-${fn:substring(order.no,4,6) }-${fn:substring(order.no,6,8) }</p></div>
 										<div class="ci5">
 											<p>${order.status }</p> 
-											<p><a href="#">订单详情</a></p>
 										</div>
 										<div class="ci5 ci8">
-											<p><a href="#">查看</a> | <a href="#">删除</a></p> 
+											<p><a href="${pageContext.request.contextPath }/order/deleteOrder.do?orderId=${order.id}">删除</a></p> 
 											<p></p>
-											<p><a href="#" class="member-touch">确认收货</a></p>
+											<c:if test="${order.status!='已收货' }">
+												<p>
+													<a href="${pageContext.request.contextPath }/order/confirmReceipt.do?id=${order.id}&no=${order.no}&status=${order.status}&totalAmount=${order.totalAmount}&user.id=${order.user.id}" class="member-touch">确认收货</a>
+												</p>
+											</c:if>
 										</div>
 									</div>
 								</li>
@@ -313,10 +340,10 @@
 				</div>
 				<div class="clearfix" style="padding:30px 20px;">
 					<div class="fr pc-search-g pc-search-gs">
-						<a href="showOrder.do?pageNow=1">首页</a>
+						<a href="${pageContext.request.contextPath }/order/showOrder.do?pageNow=1">首页</a>
 						<a 
 							<c:if test="${p.pageNow!=1 }">
-								href="showOrder.do?pageNow=${p.pageNow-1 }"
+								href="${pageContext.request.contextPath }/order/showOrder.do?pageNow=${p.pageNow-1 }"
 							</c:if>
 						 >上一页</a>
 						<c:forEach begin="${p.start }" end="${p.end }" varStatus="status">
@@ -324,17 +351,17 @@
 								<c:if test="${p.pageNow==status.index }">
 									class="current"
 								</c:if>
-								href="showOrder.do?pageNow=${status.index }"
+								href="${pageContext.request.contextPath }/order/showOrder.do?pageNow=${status.index }"
 							>
 								${status.index }
 							</a>
 						</c:forEach>
 						<a
 							<c:if test="${p.pageNow!=p.totalPage }">
-								href="showOrder.do?pageNow=${p.pageNow+1 }"
+								href="${pageContext.request.contextPath }/order/showOrder.do?pageNow=${p.pageNow+1 }"
 							</c:if>
 						>下一页</a>
-						<a href="showOrder.do?pageNow=${p.totalPage }">尾页</a>
+						<a href="${pageContext.request.contextPath }/order/showOrder.do?pageNow=${p.totalPage }">尾页</a>
 					</div>
 				</div>
 			</div>

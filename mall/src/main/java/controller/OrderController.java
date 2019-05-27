@@ -45,6 +45,13 @@ public class OrderController {
 		return mav;
 	}
 	
+	//删除订单
+	@RequestMapping("deleteOrder")
+	public String deleteOrder(int orderId) {
+		orderService.deleteOrder(orderId);
+		return "redirect:showOrder.do";
+	}
+	
 	//确认订单
 	@RequestMapping("confirmOrder")
 	public ModelAndView confirmOrder(Integer[] cartIds,int orderId) {
@@ -57,9 +64,9 @@ public class OrderController {
 	@RequestMapping("showOrder")
 	public ModelAndView showOrder(@RequestParam(defaultValue="1") int pageNow,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView("order/showOrder");
-		int dataCount=orderService.getDataCount();
-		Pagination p=new Pagination(pageNow, dataCount);
 		User user=(User)(request.getSession().getAttribute("user"));
+		int dataCount=orderService.getDataCount(user.getId());
+		Pagination p=new Pagination(pageNow, dataCount);
 		//查询订单
 		List<Order> orderList=orderService.showOrder(user,p);
 		//查询订单详情
@@ -73,5 +80,12 @@ public class OrderController {
 		mav.addObject("odList", odList);
 		mav.addObject("p", p);
 		return mav;
+	}
+	
+	//确认收货
+	@RequestMapping("confirmReceipt")
+	public String confirmReceipt(Order order) {
+		orderService.confirmReceipt(order);
+		return "redirect:showOrder.do";
 	}
 }

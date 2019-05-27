@@ -15,16 +15,22 @@ public class GoodsServiceImpl implements GoodsService {
 	@Autowired
 	private GoodsDao goodsDao;
 	
-	@Override
+	//查询所有商品
 	public List<Goods> searchAll() {
 		List<Goods> list=goodsDao.searchAll();
 		return list;
 	}
 
-	@Override
+	//根据商品id查询商品详情
 	public Goods searchById(int id) {
 		Goods g=goodsDao.searchById(id);
 		return g;
+	}
+
+	//根据商品名称模糊查询商品列表
+	public List<Goods> searchByName(String goodsName) {
+		List<Goods> list=goodsDao.searchByName(goodsName);
+		return list;
 	}
 
 }

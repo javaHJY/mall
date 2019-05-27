@@ -10,6 +10,8 @@ import util.Pagination;
 public interface OrderDao {
 
 	int addOrder(Order order);//添加订单
+	
+	int deleteOrder(@Param("orderId")int orderId);//删除订单
 
 	int updateOrder(Order order);//修改订单
 	
@@ -19,6 +21,5 @@ public interface OrderDao {
 	
 	List<Order> searchOrders(@Param("id")int id, @Param("p")Pagination p);//分页查询订单
 
-	int getDataCount();//获取订单总数
-
+	int getDataCount(@Param("id")int id);//获取订单总数
 }

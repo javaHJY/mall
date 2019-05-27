@@ -17,6 +17,7 @@ public class GoodsController {
 	@Autowired
 	private GoodsService goodsService;
 	
+	//展示商品列表
 	@RequestMapping("list")
 	public ModelAndView showList() {
 		ModelAndView mav=new ModelAndView("goods/list");
@@ -25,6 +26,16 @@ public class GoodsController {
 		return mav;
 	}
 	
+	//根据商品名称模糊查询商品
+	@RequestMapping("searchByName")
+	public ModelAndView searchByName(String goodsName) {
+		ModelAndView mav=new ModelAndView("goods/list");
+		List<Goods> list=goodsService.searchByName(goodsName);
+		mav.addObject("list", list);
+		return mav;
+	}
+	
+	//商品详情
 	@RequestMapping("detail")
 	public ModelAndView showDetail(int id) {
 		ModelAndView mav=new ModelAndView("goods/detail");

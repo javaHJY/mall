@@ -10,6 +10,10 @@
 		insert into `order`(no,amount,status,u_id) 
 		values(#{no},#{totalAmount},#{status},#{user.id}) 
 	</insert>
+	<!-- 删除订单 -->
+	<delete id="deleteOrder">
+		delete from `order` where id=#{orderId}
+	</delete>
 	<!-- 修改订单 -->
 	<update id="updateOrder">
 		update `order` 
@@ -30,7 +34,7 @@
 	</select>
 	<!-- 获取订单总数 -->
 	<select id="getDataCount" resultType="int">
-		select count(*) from `order` where status!='尚未确认'
+		select count(*) from `order` where status!='尚未确认' and u_id=#{id}
 	</select>
 	<!-- 订单自对应 -->
 	<resultMap type="entity.Order" id="Order">

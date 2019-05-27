@@ -95,7 +95,7 @@ public class UserController {
 	@RequestMapping("loginOut")
 	public String loginOut(HttpServletRequest request) {
 		request.getSession().removeAttribute("user");
-		return "redirect:/index/list.do";
+		return "redirect:/index/index.do";
 	}
 	
 	//忘记密码

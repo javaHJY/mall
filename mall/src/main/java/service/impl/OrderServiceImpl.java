@@ -76,6 +76,12 @@ public class OrderServiceImpl implements OrderService {
 		return rs>0;
 	}
 
+	//删除订单
+	public boolean deleteOrder(int orderId) {
+		int rs=orderDao.deleteOrder(orderId);
+		return rs>0;
+	}
+	
 	//确认订单
 	public boolean confirmOrder(Integer[] cartIds,int orderId) {
 		int rs=0;
@@ -116,8 +122,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	//获取订单总数
-	public int getDataCount() {
-		int dataCount=orderDao.getDataCount();
+	public int getDataCount(int id) {
+		int dataCount=orderDao.getDataCount(id);
 		return dataCount;
+	}
+
+	//订单确认收货
+	public boolean confirmReceipt(Order order) {
+		order.setStatus("已收货");
+		int rs=orderDao.updateOrder(order);
+		return rs>0;
 	}
 }

@@ -11,6 +11,9 @@
 	<select id="searchById" resultMap="GoodsAndPhoto">
 		select * from goods where id=#{id}
 	</select>
+	<select id="searchByName" resultMap="GoodsAndPhoto">
+		select * from goods where name like '%${goodsName}%'
+	</select>
 	<select id="searchAll" resultMap="GoodsAndPhoto">
 		select * from goods
 	</select>

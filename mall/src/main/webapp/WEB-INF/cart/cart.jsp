@@ -168,6 +168,13 @@
 					location.href="../order/generateOrder.do?cartIds="+array;
 				}
 			})
+			$("#searchButton").click(function(){
+	        	if($("#searchName").val()==""){
+	           		return false;
+	           	}else{
+	           		return true;
+	           	}
+	        })
 		})
 	</script>
 </head>
@@ -229,9 +236,9 @@
 			</h1>
 		</div>
 		<div class="head-form fl">
-			<form class="clearfix">
-				<input class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机" type="text">
-				<button class="button" onclick="search('key');return false;">搜索</button>
+			<form class="clearfix" action="${pageContext.request.contextPath }/goods/searchByName.do" method="post">
+				<input id="searchName" name="goodsName" class="search-text" accesskey="" id="key" autocomplete="off" type="text">
+				<button id="searchButton" type="submit" class="button">搜索</button>
 			</form>
 			<div class="words-text clearfix">
 				<a href="#" class="red">1元秒爆</a>
@@ -255,8 +262,12 @@
 		<!-- 导航   start  -->
 		<div class="yNavIndex">
 			<ul class="yMenuIndex" style="margin-left:0">
-				<li style="background:#d1201e"><a href="${pageContext.request.contextPath }/index/index.do">云购首页</a></li>
-				<li><a href="../goods/list.do" target="_blank">电脑配件 </a></li>
+				<li style="background:#d1201e">
+					<a href="${pageContext.request.contextPath }/index/index.do">云购首页</a>
+				</li>
+				<li>
+					<a href="${pageContext.request.contextPath }/goods/list.do">电脑配件 </a>
+				</li>
 				<li><a href="" target="_blank">男士护肤</a></li>
 				<li><a href="" target="_blank">洗护染发</a></li>
 				<li><a href="" target="_blank">染发</a></li>
@@ -272,9 +283,9 @@
 <section id="pc-jie">
 	<div class="center ">
 		<ul class="pc-shopping-title clearfix">
-			<li><a href="#" class="cu">全部商品(10)</a></li>
-			<li><a href="#">限时优惠(7)</a></li>
-			<li><a href="#">库存紧张(0)</a></li>
+			<li><a href="#" class="cu">全部商品</a></li>
+			<li><a href="#">限时优惠</a></li>
+			<li><a href="#">库存紧张</a></li>
 		</ul>
 	</div>
 	<div class="pc-shopping-cart center">

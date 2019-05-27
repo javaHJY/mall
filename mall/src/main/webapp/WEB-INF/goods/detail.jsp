@@ -12,15 +12,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 <meta name="renderer" content="webkit">
 <title>云购物商城-巴黎欧莱雅官方旗舰店</title>
-<link rel="shortcut icon" type="image/x-icon"
-	href="../img/icon/favicon.ico">
-<link rel="stylesheet" type="text/css" href="../css/base.css">
-<link rel="stylesheet" type="text/css" href="../css/home.css">
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/index.js"></script>
-<script type="text/javascript"
-	src="../js/modernizr-custom-v2.7.1.min.js"></script>
-<script type="text/javascript" src="../js/jquery.SuperSlide.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/img/icon/favicon.ico">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/base.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/home.css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/modernizr-custom-v2.7.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.SuperSlide.js"></script>
 <style>
 .li-ul-ss l {
 	width: 200px;
@@ -114,6 +112,13 @@
 			thisMb1.style.borderColor = '#cd2426';
 			$huantu[0].src = thisMb1.children[0].src;
 		}
+		$("#searchButton").click(function(){
+        	if($("#searchName").val()==""){
+           		return false;
+           	}else{
+           		return true;
+           	}
+        })
 		$("#decrease").click(function() {
 			var num = $("#num").val();
 			if (num > 1) {
@@ -149,15 +154,21 @@
 	<header id="pc-header">
 		<div class="pc-header-nav">
 			<div class="pc-header-con">
-				<div class="fl pc-header-link">
-					您好！，欢迎来云购物 <a href="login.html" target="_blank">请登录</a> <a
-						href="register.html" target="_blank"> 免费注册</a>
+				<div class="fl pc-header-link">您好！，欢迎来云购物 
+					<c:if test="${not empty user }">
+						<a>${user.username }</a>
+						<a href="${pageContext.request.contextPath }/user/loginOut.do">退出</a>
+					</c:if>
+					<c:if test="${empty user }">
+						<a href="${pageContext.request.contextPath }/user/goLogin.do">请登录</a>
+					</c:if>
+					<a href="${pageContext.request.contextPath }/user/goRegist.do"> 免费注册</a>
 				</div>
 				<div class="fr pc-header-list top-nav">
 					<ul>
 						<li>
 							<div class="nav">
-								<i class="pc-top-icon"></i><a href="../order/showOrder.do">我的订单</a>
+								<i class="pc-top-icon"></i><a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a>
 							</div>
 							<div class="con">
 								<dl>
@@ -199,7 +210,7 @@
 						</li>
 						<li><a href="#">我的云购</a></li>
 						<li><a href="#">我的收藏</a></li>
-						<li><a href="#">会员中心</a></li>
+						<li><a href="${pageContext.request.contextPath }/user/goUser.do">会员中心</a></li>
 						<li><a href="#">客户服务</a></li>
 						<li><a href="#">帮助中心</a></li>
 					</ul>
@@ -213,10 +224,9 @@
 				</h1>
 			</div>
 			<div class="head-form fl">
-				<form class="clearfix">
-					<input class="search-text" accesskey="" id="key" autocomplete="off"
-						placeholder="洗衣机" type="text">
-					<button class="button" onclick="search('key');return false;">搜索</button>
+				<form class="clearfix" action="${pageContext.request.contextPath }/goods/searchByName.do" method="post">
+					<input id="searchName" name="goodsName" class="search-text" accesskey="" id="key" autocomplete="off" type="text">
+					<button id="searchButton" type="submit" class="button">搜索</button>
 				</form>
 				<div class="words-text clearfix">
 					<a href="#" class="red">1元秒爆</a> 
@@ -232,8 +242,7 @@
 			</div>
 			<div class="fr pc-head-car">
 				<i class="icon-car"></i> 
-				<a href="../cart/list.do">我的购物车</a> 
-				<em>10</em>
+				<a href="${pageContext.request.contextPath }/cart/list.do">我的购物车</a> 
 			</div>
 		</div>
 		<!--  顶部    start-->
@@ -241,8 +250,12 @@
 			<!-- 导航   start  -->
 			<div class="yNavIndex">
 				<ul class="yMenuIndex" style="margin-left: 0">
-					<li style="background: #d1201e"><a href="" target="_blank">云购首页</a></li>
-					<li><a href="../goods/list.do" target="_blank">电脑配件 </a></li>
+					<li style="background: #d1201e">
+						<a href="${pageContext.request.contextPath }/index/index.do">云购首页</a>
+					</li>
+					<li>
+						<a href="${pageContext.request.contextPath }/goods/list.do">电脑配件 </a>
+					</li>
 					<li><a href="" target="_blank">男士护肤</a></li>
 					<li><a href="" target="_blank">洗护染发</a></li>
 					<li><a href="" target="_blank">染发</a></li>
@@ -319,13 +332,13 @@
 				<div class="Xcontent30">
 					<p class="Xcontent31">数量</p>
 					<div class="Xcontent32" id="decrease">
-						<img src="../images/shangpinxiangqing/X15.png">
+						<img src="${pageContext.request.contextPath }/images/shangpinxiangqing/X15.png">
 					</div>
 					<form>
 						<input class="input" id="num" value="1">
 					</form>
 					<div class="Xcontent33" id="increase">
-						<img src="../images/shangpinxiangqing/16.png">
+						<img src="${pageContext.request.contextPath }/images/shangpinxiangqing/16.png">
 					</div>
 
 				</div>
@@ -353,7 +366,7 @@
 				<ul class="lh" style="display: none;">
 					<li>
 						<div class="p-img ld">
-							<a href=""> <img src="images/shangpinxiangqing/X-1.png"></a>
+							<a href=""> <img src="${pageContext.request.contextPath }/images/shangpinxiangqing/X-1.png"></a>
 						</div>
 						<div class="p-name">
 							<a href="#">艾家纺全棉加厚磨毛四件套</a>
@@ -364,7 +377,7 @@
 					</li>
 					<li>
 						<div class="p-img ld">
-							<a href="#"> <img src="images/shangpinxiangqing/X-1.png"></a>
+							<a href="#"> <img src="${pageContext.request.contextPath }/images/shangpinxiangqing/X-1.png"></a>
 						</div>
 						<div class="p-name">
 							<a href="#">优曼真丝提花奢华四件套</a>

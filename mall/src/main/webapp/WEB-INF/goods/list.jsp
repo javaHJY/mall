@@ -99,6 +99,13 @@
                 thisMb1.style.borderColor = '#cd2426';
                 $huantu[0].src = thisMb1.children[0].src;
             }
+            $("#searchButton").click(function(){
+            	if($("#searchName").val()==""){
+            		return false;
+            	}else{
+            		return true;
+            	}
+            })
         })
 	</script>
 </head>
@@ -120,7 +127,9 @@
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>
-						<div class="nav"><i class="pc-top-icon"></i><a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a></div>
+						<div class="nav"><i class="pc-top-icon"></i>
+							<a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a>
+						</div>
 						<div class="con">
 							<dl>
 								<dt><a href="">批发进货</a></dt>
@@ -157,9 +166,9 @@
 			</h1>
 		</div>
 		<div class="head-form fl">
-			<form class="clearfix">
-				<input class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机" type="text">
-				<button class="button" onclick="search('key');return false;">搜索</button>
+			<form class="clearfix" action="${pageContext.request.contextPath }/goods/searchByName.do" method="post">
+				<input id="searchName" name="goodsName" class="search-text" accesskey="" id="key" autocomplete="off" type="text">
+				<button id="searchButton" type="submit" class="button">搜索</button>
 			</form>
 			<div class="words-text clearfix">
 				<a href="#" class="red">1元秒爆</a>
@@ -243,31 +252,7 @@
 					</ul>
 				</div>
 			</div>
-			<div style="padding-top:30px;">
-				<div class="member-pages clearfix">
-					<div class="fr pc-search-g">
-						<a href="#" class="fl pc-search-f">上一页</a>
-						<a class="current" href="#">1</a>
-						<a href="javascript:;">2</a>
-						<a href="javascript:;">3</a>
-						<a href="javascript:;">4</a>
-						<a href="javascript:;">5</a>
-						<a href="javascript:;">6</a>
-						<a href="javascript:;">7</a>
-						<span class="pc-search-di">…</span>
-						<a onclick="SEARCH.page(3, true)" href="javascript:;" class="pc-search-n" title="使用方向键右键也可翻到下一页哦！">下一页</a>
-						<span class="pc-search-y">
-                        <em>  共20页    到第</em>
-                        <input type="text" placeholder="1" class="pc-search-j">
-                        <em>页</em>
-                        <a class="confirm" href="#">确定</a>
-                    </span>
-
-					</div>
-				</div>
-			</div>
 		</div>
-
 	</div>
 </div>
 

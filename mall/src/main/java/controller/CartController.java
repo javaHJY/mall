@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +23,8 @@ public class CartController {
 	
 	//向购物车添加商品
 	@RequestMapping("addGoods")
-	public String addGoods(Cart cart) {
-		User user=new User();
-		user.setId(1);
+	public String addGoods(Cart cart,HttpServletRequest request) {
+		User user=(User) request.getSession().getAttribute("user");
 		cart.setUser(user);
 		cService.addGoods(cart);
 		return "redirect:list.do";
@@ -32,9 +33,8 @@ public class CartController {
 	//改变购物车中的商品
 	@RequestMapping(value="updateCart",produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public Cart updateCart(Cart cart) {
-		User user=new User();
-		user.setId(1);
+	public Cart updateCart(Cart cart,HttpServletRequest request) {
+		User user=(User) request.getSession().getAttribute("user");
 		cart.setUser(user);
 		Cart c =cService.updateCart(cart);
 		return c;
@@ -50,10 +50,9 @@ public class CartController {
 	
 	//展示购物车商品
 	@RequestMapping("list")
-	public ModelAndView list() {
+	public ModelAndView list(HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView("cart/cart");
-		User user=new User();
-		user.setId(1);
+		User user=(User) request.getSession().getAttribute("user");
 		List<Cart> cartList=cService.searchAllByUser(user);
 		mav.addObject("cartList",cartList);
 		return mav;

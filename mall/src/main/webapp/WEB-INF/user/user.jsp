@@ -110,9 +110,14 @@
                 if(num>0){
                     $(".input").val(num-1);
                 }
-
             })
-
+			$("#searchButton").click(function(){
+	        	if($("#searchName").val()==""){
+	           		return false;
+	           	}else{
+	           		return true;
+	           	}
+	        })
         })
 	</script>
 
@@ -175,9 +180,9 @@
 			</h1>
 		</div>
 		<div class="head-form fl">
-			<form class="clearfix">
-				<input class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机" type="text">
-				<button class="button" onclick="search('key');return false;">搜索</button>
+			<form class="clearfix" action="${pageContext.request.contextPath }/goods/searchByName.do" method="post">
+				<input id="searchName" name="goodsName" class="search-text" accesskey="" id="key" autocomplete="off" type="text">
+				<button id="searchButton" type="submit" class="button">搜索</button>
 			</form>
 			<div class="words-text clearfix">
 				<a href="#" class="red">1元秒爆</a>

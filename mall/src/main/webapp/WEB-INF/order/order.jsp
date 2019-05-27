@@ -23,6 +23,13 @@
 			$("#pay").click(function(){
 				location.href="confirmOrder.do?cartIds=${cIds}&orderId=${orderId}";
 			})
+			$("#searchButton").click(function(){
+	        	if($("#searchName").val()==""){
+	           		return false;
+	           	}else{
+	           		return true;
+	           	}
+	        })
 		})
 	</script>
 </head>
@@ -32,13 +39,22 @@
 	<div class="pc-header-nav">
 		<div class="pc-header-con">
 			<div class="fl pc-header-link" >您好！，欢迎来云购物 
-				<a href="../user/goLogin.do" target="_blank">请登录</a>
-				<a href="../user/goRegist.do" target="_blank"> 免费注册</a>
+				<c:if test="${not empty user }">
+					<a>${user.username }</a>
+					<a href="${pageContext.request.contextPath }/user/loginOut.do">退出</a>
+				</c:if>
+				<c:if test="${empty user }">
+					<a href="${pageContext.request.contextPath }/user/goLogin.do">请登录</a>
+				</c:if>
+				<a href="${pageContext.request.contextPath }/user/goRegist.do"> 免费注册</a>
 			</div>
 			<div class="fr pc-header-list top-nav">
 				<ul>
 					<li>
-						<div class="nav"><i class="pc-top-icon"></i><a href="showOrder.do">我的订单</a></div>
+						<div class="nav">
+							<i class="pc-top-icon"></i>
+							<a href="${pageContext.request.contextPath }/order/showOrder.do">我的订单</a>
+						</div>
 						<div class="con">
 							<dl>
 								<dt><a href="">批发进货</a></dt>
@@ -61,7 +77,7 @@
 					</li>
 					<li><a href="#">我的云购</a></li>
 					<li><a href="#">我的收藏</a></li>
-					<li><a href="#">会员中心</a></li>
+					<li><a href="${pageContext.request.contextPath }/user/goUser.do">会员中心</a></li>
 					<li><a href="#">客户服务</a></li>
 					<li><a href="#">帮助中心</a></li>
 				</ul>
@@ -75,9 +91,9 @@
 			</h1>
 		</div>
 		<div class="head-form fl">
-			<form class="clearfix">
-				<input class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机" type="text">
-				<button class="button" onclick="search('key');return false;">搜索</button>
+			<form class="clearfix" action="${pageContext.request.contextPath }/goods/searchByName.do" method="post">
+				<input id="searchName" name="goodsName" class="search-text" accesskey="" id="key" autocomplete="off" type="text">
+				<button id="searchButton" type="submit" class="button">搜索</button>
 			</form>
 			<div class="words-text clearfix">
 				<a href="#" class="red">1元秒爆</a>
@@ -93,7 +109,7 @@
 		</div>
 		<div class="fr pc-head-car">
 			<i class="icon-car"></i>
-			<a href="../cart/list.do">我的购物车</a>
+			<a href="${pageContext.request.contextPath }/cart/list.do">我的购物车</a>
 		</div>
 	</div>
 	<!--  顶部    start-->
@@ -102,7 +118,7 @@
 		<div class="yNavIndex">
 			<ul class="yMenuIndex" style="margin-left:0">
 				<li style="background:#d1201e">
-					<a href="" target="_blank">云购首页</a>
+					<a href="${pageContext.request.contextPath }/index/index.do">云购首页</a>
 				</li>
 				<li><a href="" target="_blank">女士护肤 </a></li>
 				<li><a href="" target="_blank">男士护肤</a></li>
